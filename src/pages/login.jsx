@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import backimg from "../img/company3.jpg";
 import Header from "./Header.js";
+import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
 const Container = styled.div`
   margin: 0;
@@ -70,6 +71,9 @@ const Input = styled.input`
 `;
 
 const Login = () => {
+  const navigate = useNavigate();
+  const navigateToSignup = () => {navigate('/signup');};
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isToggled, setIsToggled] = useState(false);
@@ -123,8 +127,8 @@ const Login = () => {
               onChange={handleInputChange}
               required
             />
-            <Label className="label3">아이디/비밀번호 찾기</Label>
-            <Label className="label4">회원가입</Label><br />
+            <Label className="label3">아이디/비밀번호 찾기 </Label>
+            <Label className="label4" onClick={navigateToSignup}>회원가입</Label><br />
             <LoginButton type="submit">로그인</LoginButton>
           </form>
         </LoginBox>

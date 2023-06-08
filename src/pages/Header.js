@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faUser, faTimes } from "@fortawesome/free-solid-svg-icons";
 import logoimg from "../img/blutes.png";
+import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
 const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
   const HeaderContainer = styled.div`
@@ -127,6 +128,10 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
     }
   `;
 
+  const navigate = useNavigate();
+  const navigateToCommunity = () => {navigate('/community');};
+  const navigateToDictionary = () => {navigate('/dictionary');};
+
   return (
     <HeaderContainer isToggled={isToggled} userToggled={userToggled}>
       {/* 햄버거 버튼(bar) */}
@@ -156,8 +161,8 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
 
       {/* 메뉴 리스트 */}
       <ul className="header__menulist">
-        <li>커뮤니티</li>
-        <li>약어사전·퀴즈</li>
+        <li onClick={navigateToCommunity}>커뮤니티</li>
+        <li onClick={navigateToDictionary}>약어사전·퀴즈</li>
         <li>채용정보</li>
         <li>회사라이프</li>
         <li>면접질문</li>
