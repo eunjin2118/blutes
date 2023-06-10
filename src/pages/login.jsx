@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import backimg from "../img/company3.jpg";
 import Header from "./Header.js";
-import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   margin: 0;
@@ -74,25 +75,34 @@ const Login = () => {
   const navigate = useNavigate();
   const navigateToSignup = () => {navigate('/signup');};
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  // const [username, setUsername] = useState('');
+  // const [password, setPassword] = useState('');
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
   
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    if (name === 'username') {
-      setUsername(value);
-    } else if (name === 'password') {
-      setPassword(value);
-    }
+  const [values, setValues] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleInput = (event) => {
+      setValues(prev => ({...prev, [event.target.name] : [event.target.value]}))
   };
 
+  // axios.defaults.withCredentials = true;
   const handleSubmit = (event) => {
-    event.preventDefault();
-
-    // Use username and password for login logic
-  };
+      event.preventDefault();
+      //, { withCredentials: true }
+      axios.post('http://localhost:5000/login', values)
+      .then(res => {
+          if(res.data.Status === "Success"){
+              navigate('/main');
+          } else{
+              alert(res.data.Error);
+          }
+      })
+      .catch(err => console.log(err))
+  }
 
   return (
     <>
@@ -109,13 +119,12 @@ const Login = () => {
         <LoginBox>
           <h1>로그인</h1>
           <form onSubmit={handleSubmit}>
-            <Label htmlFor="username" className="label1">이메일 또는 아이디</Label><br />
+            <Label htmlFor="email" className="label1">이메일</Label><br />
             <Input
-              type="text"
-              id="username"
-              name="username"
-              value={username}
-              onChange={handleInputChange}
+              type="email"
+              id="email"
+              name="email"
+              onChange={handleInput}
               required
             />
             <Label htmlFor="password" className="label2">비밀번호</Label><br />
@@ -123,8 +132,7 @@ const Login = () => {
               type="password"
               id="password"
               name="password"
-              value={password}
-              onChange={handleInputChange}
+              onChange={handleInput}
               required
             />
             <Label className="label3">아이디/비밀번호 찾기 </Label>
