@@ -89,11 +89,11 @@ const Login = () => {
       setValues(prev => ({...prev, [event.target.name] : [event.target.value]}))
   };
 
-  // axios.defaults.withCredentials = true;
+  axios.defaults.withCredentials = true;
   const handleSubmit = (event) => {
       event.preventDefault();
       //, { withCredentials: true }
-      axios.post('http://localhost:5000/login', values)
+      axios.post('login', values)
       .then(res => {
           if(res.data.Status === "Success"){
               navigate('/main');
