@@ -3,6 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
 import Header from '../Header';
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -132,13 +133,26 @@ function POST() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // 작성한 글을 서버로 전송하는 등의 로직을 추가할 수 있습니다.
-    console.log('제목:', title);
-    console.log('내용:', content);
-    console.log('해시태그:', tags);
+
+    try {
+      // 입력한 데이터를 서버로 전송
+      const response = await axios.post('/add', {
+        title,
+        content,
+      });
+
+      console.log('데이터 추가 완료:', response.data);
+
+      // 페이지 리디렉션
+      window.location.href = '/community';
+    } catch (error) {
+      console.error('Error occurred while adding data:', error);
+      // 에러 처리
+    }
   };
+  
 
   return (
     <>
