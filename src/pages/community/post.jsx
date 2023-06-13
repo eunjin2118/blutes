@@ -1,108 +1,141 @@
-// PostForm.js
 import React, { useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
-import Header from "../Header.js";
 
-const PageContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
-const FormContainer = styled.div`
-  max-width: 400px;
-  padding: 50px;
-  margin-top: -5%;
-  border: 1px solid #071DA1;
+const Container = styled.div`
+  max-width: 600px;
+  margin: 10% auto 0;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
-const TitleInput = styled.input`
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+const Title = styled.h2`
+  margin-top: 0;
 `;
 
-const ContentTextarea = styled.textarea`
+const Form = styled.form`
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
 `;
 
-const TagInput = styled.input`
-  width: 100%;
+const FormGroup = styled.div`
+  margin-bottom: 20px;
+`;
+
+const Label = styled.label`
+  display: block;
+  margin-bottom: 5px;
+`;
+
+const Input = styled.input`
+  width: 96%;
   padding: 10px;
-  margin-bottom: 10px;
   border: 1px solid #ccc;
-  border-radius: 3px;
+  border-radius: 4px;
 `;
 
 const SubmitButton = styled.button`
-  padding: 10px 20px;
+  display: block;
+  width: 100%;
+  padding: 10px;
   background-color: #4caf50;
   color: #fff;
   border: none;
-  border-radius: 3px;
+  border-radius: 4px;
   cursor: pointer;
+
+  &:hover {
+    background-color: #45a049;
+  }
 `;
 
-function PostForm({ onSubmit }) {
-  const [isToggled, setIsToggled] = useState(false);
-  const [userToggled, setUserToggled] = useState(false);
-
+function BulletinBoard() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tags, setTags] = useState('');
 
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleContentChange = (value) => {
+    setContent(value);
+  };
+
+  const handleTagsChange = (e) => {
+    let input = e.target.value;
+    // '#' 기호가 입력되지 않은 경우 자동으로 '#' 기호를 추가합니다.
+    if (input && !input.startsWith('#')) {
+      input = `#${input}`;
+    }
+    setTags(input);
+  };
+
+  const handleKeyDown = (e) => {
+    // 스페이스바를 눌렀을 때 '#' 기호를 추가합니다.
+    if (e.key === ' ') {
+      e.preventDefault();
+      setTags((prevTags) => {
+        let updatedTags = prevTags;
+        if (!updatedTags.endsWith('#')) {
+          updatedTags += ' #';
+        }
+        return updatedTags;
+      });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ title, content, tags });
-    setTitle('');
-    setContent('');
-    setTags('');
+    // 작성한 글을 서버로 전송하는 등의 로직을 추가할 수 있습니다.
+    console.log('제목:', title);
+    console.log('내용:', content);
+    console.log('해시태그:', tags);
   };
 
   return (
-    <div>
-      <Header
-        istoggled={isToggled}
-        usertoggled={userToggled}
-        setIsToggled={setIsToggled}
-        setUserToggled={setUserToggled}
-      />
-      <PageContainer>
-        <FormContainer>
-          <h2>글 작성</h2>
-          <form onSubmit={handleSubmit}>
-            <TitleInput
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="제목"
-            />
-            <ContentTextarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="내용"
-            ></ContentTextarea>
-            <TagInput
-              type="text"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-              placeholder="태그"
-            />
-            <SubmitButton type="submit">작성</SubmitButton>
-          </form>
-        </FormContainer>
-      </PageContainer>
-    </div>
+    <Container>
+      <Title>글 작성하기</Title>
+      <Form onSubmit={handleSubmit}>
+        <FormGroup>
+          <Label htmlFor="title">제목</Label>
+          <Input
+            type="text"
+            id="title"
+            value={title}
+            onChange={handleTitleChange}
+            placeholder="제목을 입력하세요"
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="content">내용</Label>
+          <ReactQuill
+            value={content}
+            onChange={handleContentChange}
+            placeholder="내용을 입력하세요"
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="tags">해시태그</Label>
+          <Input
+            type="text"
+            id="tags"
+            value={tags}
+            onChange={handleTagsChange}
+            onKeyDown={handleKeyDown}
+            placeholder="해시태그를 입력하세요"
+          />
+        </FormGroup>
+        <SubmitButton type="submit">글 작성</SubmitButton>
+      </Form>
+    </Container>
   );
 }
 
-export default PostForm;
+export default BulletinBoard;
