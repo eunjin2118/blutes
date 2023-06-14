@@ -78,43 +78,55 @@ app.post('/login', (req, res) => {
 })
 
 app.post('/add', (req, res) => {
-    console.log('저장완료');
-    // 입력한 값 가져오기
-    var title = req.body.title;
-    var content = req.body.content;
-    var post_date = new Date();
+  console.log('저장완료');
+  // 입력한 값 가져오기
+  var title = req.body.title;
+  var content = req.body.content;
+  var post_date = new Date();
+
+  // 쿼리 작성
+  var sql = "INSERT INTO board (title, content, post_date) VALUES (?, ?, ?)";
+  var params = [title, content, post_date];
+
+  // 쿼리 실행
+  db.query(sql, params, (err, results) => {
+    if (err) {
+      console.log(err);
+      res.send('Error occurred while adding data.');
+    } else {
+      console.log('데이터 추가 완료');
+
+      // 새로운 쿼리 작성
+      var selectSql = "SELECT * FROM board";
+
+      // 쿼리 실행하여 데이터 조회
+      db.query(selectSql, (err, rows) => {
+        if (err) {
+          console.log(err);
+          res.send('Error occurred while retrieving data.');
+        } else {
+          console.log('데이터 조회 완료');
+
+          // 데이터를 JSON 형식으로 클라이언트에 전송
+          res.json(rows);
+        }
+      });
+    }
+  });
+});
   
-    // 쿼리 작성
-    var sql = "INSERT INTO board (title, content, post_date) VALUES (?, ?, ?)";
-    var params = [title, content, post_date];
-  
-    // 쿼리 실행
-    db.query(sql, params, (err, results) => {
+  app.get('/getPosts', (req, res) => {
+    var selectSql = "SELECT * FROM board";
+    db.query(selectSql, (err, rows) => {
       if (err) {
         console.log(err);
-        res.send('Error occurred while adding data.');
+        res.send('Error occurred while retrieving data.');
       } else {
-        console.log('데이터 추가 완료');
-  
-        // 새로운 쿼리 작성
-        var selectSql = "SELECT * FROM board";
-  
-        // 쿼리 실행하여 데이터 조회
-        db.query(selectSql, (err, rows) => {
-          if (err) {
-            console.log(err);
-            res.send('Error occurred while retrieving data.');
-          } else {
-            console.log('데이터 조회 완료');
-  
-            // 데이터를 JSON 형식으로 클라이언트에 전송
-            res.json(rows);
-          }
-        });
+        console.log('데이터 조회 완료');
+        res.json(rows);
       }
     });
   });
-  
   
 
 app.listen(5000, ()=>{
