@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { RiHeart2Line, RiChat1Line } from 'react-icons/ri'; // 하트와 댓글 아이콘 추가
 import Header from "../Header.js";
+import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development.js';
 
 // 스타일드 컴포넌트 정의
 const SearchContainer = styled.div`
@@ -137,14 +138,22 @@ const CommenterCount = styled.p`
   margin-left: 20px;
   color: #071DA1;
 `;
+
 const CommunityPage = () => {
+  const navigate = useNavigate();
+
+  // post페이지로 이동하는 버튼
+  const handlePostButtonClick = () => {
+    navigate('/post');
+  };
+
   return (
     <div>
       <Header />
       <SearchContainer>
         <SearchInput type="text" placeholder="검색어 입력" />
         <SearchIcon src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" />
-        <PostButton>작성하기</PostButton>
+        <PostButton onClick={handlePostButtonClick}>작성하기</PostButton>
       </SearchContainer>
       <hr />
       <Wrapper>
@@ -173,4 +182,4 @@ const CommunityPage = () => {
   );
 };
 
-export default CommunityPage;
+export default CommunityPage; 
