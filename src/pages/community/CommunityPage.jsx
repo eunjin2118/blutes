@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { RiHeart2Line, RiChat1Line } from 'react-icons/ri'; // 하트와 댓글 아이콘 추가
 import Header from "../Header.js";
-import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development.js';
+import { useNavigate } from 'react-router-dom';
 
 // 스타일드 컴포넌트 정의
 const SearchContainer = styled.div`
@@ -144,7 +144,7 @@ const CommunityPage = () => {
 
   // post페이지로 이동하는 버튼
   const handlePostButtonClick = () => {
-    navigate('/post');
+    navigate('post');
   };
 
   return (
