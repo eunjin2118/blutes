@@ -120,7 +120,7 @@ const POST = () => {
       .then((res) => {
         console.log(res.data.Status);
         if (res) {
-          navigate('community');
+          window.location.href = '/community';
         } else {
           alert(res.data.Error);
         }
