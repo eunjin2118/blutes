@@ -115,18 +115,19 @@ app.post('/add', (req, res) => {
   });
 });
   
-  app.get('/getPosts', (req, res) => {
-    var selectSql = "SELECT * FROM board";
-    db.query(selectSql, (err, rows) => {
-      if (err) {
-        console.log(err);
-        res.send('Error occurred while retrieving data.');
-      } else {
-        console.log('데이터 조회 완료');
-        res.json(rows);
-      }
-    });
+app.get('/getPosts', (req, res) => {
+  var selectSql = "SELECT id, title, DATE_FORMAT(post_date, '%Y-%m-%d') AS post_date, content FROM board"; // post_date를 YYYY-MM-DD 형식으로 가져옴
+  db.query(selectSql, (err, rows) => {
+    if (err) {
+      console.log(err);
+      res.send('Error occurred while retrieving data.');
+    } else {
+      console.log('데이터 조회 완료');
+      res.json(rows);
+    }
   });
+});
+
   
 
 app.listen(5000, ()=>{
