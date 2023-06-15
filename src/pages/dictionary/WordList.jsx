@@ -1,84 +1,58 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Header from "../Header.js";
+import AddWordForm from './AddWordForm';
 
-// WordList 컴포넌트 스타일링
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-`;
-
-const CardContainer = styled.div`
+  margin-top: 8%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  max-width: 800px;
-  width: 100%;
+  grid-template-columns: repeat(4, 1fr); /* 4개의 열로 구성 */
+  grid-gap: 20px; /* 카드 간격 조정 */
 `;
 
 const Card = styled.div`
+  align-item: center;
+  padding: 20px;
   background-color: #fff;
   border-radius: 8px;
-  padding: 20px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 `;
 
 const Word = styled.h3`
   margin-bottom: 10px;
+  color: #333;
 `;
 
 const Meaning = styled.p`
   margin-bottom: 10px;
+  color: #555;
 `;
 
 const Sentence = styled.p`
-  font-style: italic;
+  color: #777;
 `;
 
-// WordList 컴포넌트
 const WordList = () => {
-  const [words, setWords] = useState([]);
+  const [words, setWords] = useState([]); // 단어 데이터 배열
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const newWord = {
-      abbreviation: form.abbreviation.value,
-      meaning: form.meaning.value,
-      sentence: form.sentence.value,
-    };
-    setWords((prevWords) => [...prevWords, newWord]);
-    form.reset();
+  const addWord = (newWord) => {
+    setWords([...words, newWord]);
   };
 
   return (
-    <Container>
-      <CardContainer>
-        {words.map((word, index) => (
-          <Card key={index}>
-            <Word>{word.abbreviation}</Word>
+    <>
+      <Header />
+      <Container>
+        {words.map((word) => (
+          <Card key={word.id}>
+            <Word>{word.word}</Word>
             <Meaning>{word.meaning}</Meaning>
             <Sentence>{word.sentence}</Sentence>
           </Card>
         ))}
-      </CardContainer>
-
-      <AddWordForm onSubmit={handleFormSubmit} />
-    </Container>
+      </Container>
+    </>
   );
 };
-
-// AddWordForm 컴포넌트 (이전에 작성한 코드 재활용)
-const AddWordForm = ({ onSubmit }) => {
-  return (
-    <Form onSubmit={onSubmit}>
-      {/* 입력 필드와 버튼 등의 내용 */}
-    </Form>
-  );
-};
-
-// 나머지 코드는 이전에 작성한 AddWordForm 컴포넌트와 동일하므로 생략
 
 export default WordList;

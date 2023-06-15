@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import Header from '../Header';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 20px;
   font-family: Arial, sans-serif;
   background-color: #f2f2f2;
+  height: 100vh;
 `;
 
 const Title = styled.h1`
@@ -64,28 +68,78 @@ const SubmitButton = styled.input`
   font-size: 14px;
 `;
 
-const AddWordForm = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Form submission logic here
+const AddWordForm = ({ addWord }) => {
+  const [abbreviation, setAbbreviation] = useState('');
+  const [meaning, setMeaning] = useState('');
+  const [sentence, setSentence] = useState('');
+  const navigate = useNavigate();
+
+  // addWord 함수 정의
+  const handleAddWord = (newWord) => {
+    addWord(newWord);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newWord = {
+      id: Date.now(),
+      word: abbreviation,
+      meaning,
+      sentence,
+    };
+
+    addWord(newWord); // 수정된 부분
+
+    // 폼 초기화
+    setAbbreviation('');
+    setMeaning('');
+    setSentence('');
+
+    // 페이지 이동
+    navigate('/WordList');
+  }; 
+
   return (
-    <Container>
-      <Title>단어 추가하기</Title>
-      <Form onSubmit={handleSubmit}>
-        <Label htmlFor="abbreviation">단어:</Label>
-        <TextInput type="text" id="abbreviation" name="abbreviation" required />
+    <>
+      <Header />
+      <Container>
+        <Title>단어 추가하기</Title>
+        <Form onSubmit={handleSubmit}>
+          <Label htmlFor="abbreviation">단어:</Label>
+          <TextInput
+            type="text"
+            id="abbreviation"
+            name="abbreviation"
+            value={abbreviation}
+            onChange={(e) => setAbbreviation(e.target.value)}
+            required
+          />
 
-        <Label htmlFor="meaning">의미:</Label>
-        <TextInput type="text" id="meaning" name="meaning" required />
+          <Label htmlFor="meaning">의미:</Label>
+          <TextInput
+            type="text"
+            id="meaning"
+            name="meaning"
+            value={meaning}
+            onChange={(e) => setMeaning(e.target.value)}
+            required
+          />
 
-        <Label htmlFor="sentence">예시 문장:</Label>
-        <TextArea id="sentence" name="sentence" rows="4" required></TextArea>
+          <Label htmlFor="sentence">예시 문장:</Label>
+          <TextArea
+            id="sentence"
+            name="sentence"
+            rows="4"
+            value={sentence}
+            onChange={(e) => setSentence(e.target.value)}
+            required
+          ></TextArea>
 
-        <SubmitButton type="submit" value="추가" />
-      </Form>
-    </Container>
+          <SubmitButton type="submit" value="추가" />
+        </Form>
+      </Container>
+    </>
   );
 };
 
