@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { RiHeart2Line, RiChat1Line } from 'react-icons/ri'; // 하트와 댓글 아이콘 추가
 import Header from "../Header.js";
-import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development.js';
 
 // 스타일드 컴포넌트 정의
 const SearchContainer = styled.div`
@@ -140,11 +139,28 @@ const CommenterCount = styled.p`
 `;
 
 const CommunityPage = () => {
-  const navigate = useNavigate();
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    
+    // API를 통해 포스트 데이터를 가져오는 함수
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/getPosts');
+        const data = await response.json();
+        console.log(data);
+        setPosts(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   // post페이지로 이동하는 버튼
   const handlePostButtonClick = () => {
-    navigate('/post');
+    window.location.href = '/post'; // '/post' 경로로 이동
   };
 
   return (
@@ -158,17 +174,24 @@ const CommunityPage = () => {
       <hr />
       <Wrapper>
         <PageContainer>
-          <TitleWrapper>
-            <Title className='Title'>제목</Title>
-            <WriteDate className='WriteDate'>작성일자</WriteDate>
-          </TitleWrapper>
-          <Content className='Content'>내용</Content>
-          <View className='View'>조회수 0</View>
-          <IconWrapper>
-            <CommentIcon />
-            <HeartIcon />
-          </IconWrapper>
-          <hr/>
+          {
+            posts && posts.map(p => {
+          return <div>
+            <TitleWrapper>
+              <Title className='Title'>{p.title}</Title>
+              <WriteDate className='WriteDate'>{p.post_date}</WriteDate>
+            </TitleWrapper>
+            <Content className='Content' dangerouslySetInnerHTML={ {__html: p.content } }></Content>
+            <View className='View'>조회수 0</View>
+            <IconWrapper>
+              <CommentIcon />
+              <HeartIcon />
+            </IconWrapper>
+            <hr/>
+          </div>
+            })
+          }
+          
         </PageContainer>
         <TodayContainer>
           <Todate className='Todate'>2023.06.14</Todate>
