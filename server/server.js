@@ -214,6 +214,24 @@ app.post('/addworld', (req, res) => {
       })
 })
 
+app.post('/comments/:id', (req, res) => {
+  const postId = req.params.id;
+  const commentContent = req.body.comment;
+
+  // 댓글 추가
+  const insertSql = "INSERT INTO comments (post_id, content, nickname) VALUES (?, ?, ?)";
+  const insertParams = [postId, commentContent, req.body.nickname]; // Assuming 'nickname' is sent in the request body
+
+  db.query(insertSql, insertParams, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ error: 'Error occurred while adding comment.' });
+    } else {
+      console.log('댓글 추가 완료');
+      res.status(200).json({ message: '댓글이 추가되었습니다.' });
+    }
+  });
+});
 
 app.listen(5000, ()=>{
     console.log("Connectd to server");
