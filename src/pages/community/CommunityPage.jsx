@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { RiHeart2Line, RiChat1Line } from 'react-icons/ri'; // 하트와 댓글 아이콘 추가
 import Header from "../Header.js";
+import { useNavigate } from 'react-router-dom';
 
 // 스타일드 컴포넌트 정의
 const SearchContainer = styled.div`
@@ -81,7 +82,7 @@ const HeartIcon = styled(RiHeart2Line)`
 
 const CommentIcon = styled(RiChat1Line)`
   margin-right: 8px;
-`;  
+`;
 
 const PageContainer = styled.div`
   margin-top: 40px;
@@ -119,17 +120,17 @@ const Todate = styled.div`
 
 const TodayVisitor = styled.div`
   margin-top: 10px;
-  margin-left: 20px; 
+  margin-left: 20px;
 `;
 
 const VisitorCount = styled.p`
-  margin-left: 20px; 
+  margin-left: 20px;
   color: #071DA1;
 `;
 
 const TodayComment = styled.p`
   margin-top: 10px;
-  margin-left: 20px; 
+  margin-left: 20px;
 `;
 
 const CommenterCount = styled.p`
@@ -140,12 +141,15 @@ const CommenterCount = styled.p`
 const ViewWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-`
+`;
+
 const CommunityPage = () => {
   const [posts, setPosts] = useState([]);
+  const [todayDate, setTodayDate] = useState(''); // 오늘 날짜 state 추가
+  const navigate = useNavigate();
+
 
   useEffect(() => {
-    
     // API를 통해 포스트 데이터를 가져오는 함수
     const fetchPosts = async () => {
       try {
@@ -158,12 +162,28 @@ const CommunityPage = () => {
       }
     };
 
+    const getTodayDate = () => {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+
+      const formattedDate = `${year}-${month}-${day}`;
+      setTodayDate(formattedDate);
+    };
+
     fetchPosts();
+    getTodayDate();
   }, []);
 
   // post페이지로 이동하는 버튼
   const handlePostButtonClick = () => {
-    window.location.href = '/post'; // '/post' 경로로 이동
+    navigate('/post'); // '/post' 경로로 이동
+  };
+
+  // detail 페이지로 이동하는 버튼
+  const handleDetailIconClick = (postId) => {
+    navigate(`/detailcommunity/${postId}`);
   };
 
   return (
@@ -177,37 +197,38 @@ const CommunityPage = () => {
       <hr />
       <Wrapper>
         <PageContainer>
-          {
-            posts && posts.map(p => {
-          return <div style={{ width: '100%' }}>
-            <WriteDate className='WriteDate'>{p.post_date}</WriteDate>
-            <TitleWrapper>
-              <Title className='Title'>{p.title}</Title>
-            </TitleWrapper>
-            <Content className='Content' dangerouslySetInnerHTML={ {__html: p.content } }></Content>
-            <ViewWrapper>
-              <View className='View'>조회수 0</View>
-              <IconWrapper>
-                <CommentIcon />
-                <HeartIcon />
-              </IconWrapper>
-            </ViewWrapper>
-            <hr/>
-          </div>
-            })
-          }
-          
+          {posts &&
+            posts.map((p) => (
+              <div style={{ width: '100%' }} key={p.id}>
+                <WriteDate className='WriteDate'>{p.post_date}</WriteDate>
+                <TitleWrapper>
+                  <Title className='Title'>{p.title}</Title>
+                </TitleWrapper>
+                <Content
+                  className='Content'
+                  dangerouslySetInnerHTML={{ __html: p.content }}
+                ></Content>
+                <ViewWrapper>
+                  <View className='View'>조회수 0</View>
+                  <IconWrapper>
+                    <CommentIcon onClick={() => handleDetailIconClick(p.id)} />
+                    <HeartIcon />
+                  </IconWrapper>
+                </ViewWrapper>
+                <hr />
+              </div>
+            ))}
         </PageContainer>
         <TodayContainer>
-          <Todate className='Todate'>2023.06.14</Todate>
+          <Todate className='Todate'>{todayDate}</Todate>
           <TodayVisitor className='TodayVisitor'>오늘의 방문자</TodayVisitor>
           <VisitorCount className='VisitorCount'>00명</VisitorCount>
           <TodayComment className='TodayComment'>오늘의 포스트/답글</TodayComment>
           <CommenterCount className='CommenterCount'>00명</CommenterCount>
         </TodayContainer>
-    </Wrapper>
+      </Wrapper>
     </div>
   );
 };
 
-export default CommunityPage; 
+export default CommunityPage;

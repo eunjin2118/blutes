@@ -148,7 +148,7 @@ app.get('/getPosts', (req, res) => {
     } else {
       console.log('데이터 조회 완료');
       
-      // 게시물별로 댓글을 가져오는 로직 추가
+      //게시물별로 댓글을 가져오는 로직 추가
       const postsWithComments = rows.map(async (post) => {
         const commentSql = "SELECT content FROM comments WHERE post_id = ?";
         const comments = await new Promise((resolve, reject) => {
@@ -169,12 +169,35 @@ app.get('/getPosts', (req, res) => {
           console.log(error);
           res.send('댓글을 가져오는 중에 오류가 발생했습니다.');
         });
-    }
+      }
   });
 });
 
-
-  
+//게시물 1개 조회
+app.get('/posts/:id', (req, res) => {
+  const id = req.params.id
+  var selectSql = `
+    SELECT 
+    b.id, b.title, DATE_FORMAT(b.post_date, '%Y-%m-%d') AS post_date, b.content as board_content, c.content as comment_content, c.nickname
+    FROM board as b
+    LEFT JOIN comments as c
+    ON b.id = c.post_id
+    WHERE b.id = ?;
+  `; // post_date를 YYYY-MM-DD 형식으로 가져옴
+  db.query(selectSql, [id], async (err, rows) => {
+    if (err) {
+      console.log(err);
+      res.send('데이터를 가져오는 중에 오류가 발생했습니다.');
+    } else {
+      if(rows.length === 0) {
+        res.json({ message: "데이터가 존재하지 않습니다." });
+      } else {
+        res.json({ result: rows })
+      }
+      console.log('데이터 조회 완료')
+    }
+  });
+});
 
 app.listen(5000, ()=>{
     console.log("Connectd to server");

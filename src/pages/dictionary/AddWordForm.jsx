@@ -69,7 +69,7 @@ const SubmitButton = styled.input`
 `;
 
 const AddWordForm = ({ addWord }) => {
-  const [abbreviation, setAbbreviation] = useState('');
+  const [word, setWord] = useState('');
   const [meaning, setMeaning] = useState('');
   const [sentence, setSentence] = useState('');
   const navigate = useNavigate();
@@ -84,7 +84,7 @@ const AddWordForm = ({ addWord }) => {
 
     const newWord = {
       id: Date.now(),
-      word: abbreviation,
+      word: word,
       meaning,
       sentence,
     };
@@ -92,7 +92,7 @@ const AddWordForm = ({ addWord }) => {
     addWord(newWord); // 수정된 부분
 
     // 폼 초기화
-    setAbbreviation('');
+    setWord('');
     setMeaning('');
     setSentence('');
 
@@ -109,10 +109,10 @@ const AddWordForm = ({ addWord }) => {
           <Label htmlFor="abbreviation">단어:</Label>
           <TextInput
             type="text"
-            id="abbreviation"
-            name="abbreviation"
-            value={abbreviation}
-            onChange={(e) => setAbbreviation(e.target.value)}
+            id="word"
+            name="word"
+            value={word}
+            onChange={(e) => setWord(e.target.value)}
             required
           />
 
@@ -130,7 +130,6 @@ const AddWordForm = ({ addWord }) => {
           <TextArea
             id="sentence"
             name="sentence"
-            rows="4"
             value={sentence}
             onChange={(e) => setSentence(e.target.value)}
             required

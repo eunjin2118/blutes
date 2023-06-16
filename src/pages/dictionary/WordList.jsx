@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Header from "../Header.js";
-import AddWordForm from './AddWordForm';
 
 const Container = styled.div`
   margin-top: 8%;
