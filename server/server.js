@@ -195,6 +195,14 @@ app.post('/addworld', (req, res) => {
       })
 })
 
+app.get('/getWords', (req, res) => {
+    const sql = "SELECT word, meaning, sentence, DATE_FORMAT(date, '%Y-%m-%d') AS date FROM word";
+    db.query(sql, (err, result)=>{
+      if(err) return res.json({Error: "Inserting data Error in server"});
+      return res.json(result);
+  })
+})
+
 app.post('/comments/:id', (req, res) => {
   const postId = req.params.id;
   const commentContent = req.body.comment;
