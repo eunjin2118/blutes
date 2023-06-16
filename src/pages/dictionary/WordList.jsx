@@ -33,14 +33,23 @@ const Sentence = styled.p`
 
 const WordList = () => {
   const [words, setWords] = useState([]); // 단어 데이터 배열
+  const [isToggled, setIsToggled] = useState(false);
+  const [userToggled, setUserToggled] = useState(false);
+
 
   const addWord = (newWord) => {
     setWords([...words, newWord]);
   };
 
+
   return (
     <>
-      <Header />
+      <Header
+      isToggled={isToggled}
+      userToggled={userToggled}
+      setIsToggled={setIsToggled}
+      setUserToggled={setUserToggled}
+      />
       <Container>
         {words.map((word) => (
           <Card key={word.id}>

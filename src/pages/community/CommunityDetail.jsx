@@ -94,50 +94,12 @@ const PageContainer = styled.div`
   width: 600px;
   height: auto;
   border: 1px solid #E0E0E0;
-  margin-left: auto;
-  margin-right: 10px; /* Updated margin-right */
   padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
-`;
-
-const TodayContainer = styled.div`
-  margin-top: 40px;
-  width: 200px;
-  height: 200px;
-  border: 1px solid #E0E0E0;
-  margin-left: 10px; /* Updated margin-left */
-  margin-right: auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
 `;
 
 const Wrapper = styled.div`
   display: flex;
-`;
-
-const Todate = styled.div`
-  margin-top: 20px;
-  margin-left: 20px;
-  color: #E0E0E0;
-`;
-
-const TodayVisitor = styled.div`
-  margin-top: 10px;
-  margin-left: 20px;
-`;
-
-const VisitorCount = styled.p`
-  margin-left: 20px;
-  color: #071DA1;
-`;
-
-const TodayComment = styled.p`
-  margin-top: 10px;
-  margin-left: 20px;
-`;
-
-const CommenterCount = styled.p`
-  margin-left: 20px;
-  color: #071DA1;
 `;
 
 const ViewWrapper = styled.div`
@@ -159,7 +121,7 @@ const CommentForm = styled.form`
 const CommentInput = styled.input`
   width: 400px;
   height: 30px;
-  margin-left: 10px;
+  margin-left: 10%;
 `;
 
 const CommentButton = styled.button`
