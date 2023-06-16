@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Header';
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -68,37 +69,32 @@ const SubmitButton = styled.input`
   font-size: 14px;
 `;
 
-const AddWordForm = ({ addWord }) => {
-  const [word, setWord] = useState('');
-  const [meaning, setMeaning] = useState('');
-  const [sentence, setSentence] = useState('');
+const AddWordForm = () => {
   const navigate = useNavigate();
 
-  // addWord 함수 정의
-  const handleAddWord = (newWord) => {
-    addWord(newWord);
+  const [values, setValues] = useState({
+    word: '',
+    meaning: '',
+    sentence: '',
+    date: Date.now()
+  });
+
+  const handleInput = (event) => {
+    setValues(prev => ({...prev, [event.target.name] : [event.target.value]}))
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const newWord = {
-      id: Date.now(),
-      word: word,
-      meaning,
-      sentence,
-    };
-
-    addWord(newWord); // 수정된 부분
-
-    // 폼 초기화
-    setWord('');
-    setMeaning('');
-    setSentence('');
-
-    // 페이지 이동
-    navigate('/WordList');
-  }; 
+  
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios.post('addworld', values)
+    .then(res => {
+        if(res.data.Status === "Success"){
+            navigate('/wordlist');
+        } else{
+            alert("Error");
+        }
+    })
+    .then(err => console.log(err))
+}
 
   return (
     <>
@@ -106,13 +102,12 @@ const AddWordForm = ({ addWord }) => {
       <Container>
         <Title>단어 추가하기</Title>
         <Form onSubmit={handleSubmit}>
-          <Label htmlFor="abbreviation">단어:</Label>
+          <Label htmlFor="word">단어:</Label>
           <TextInput
             type="text"
             id="word"
             name="word"
-            value={word}
-            onChange={(e) => setWord(e.target.value)}
+            onChange={handleInput}
             required
           />
 
@@ -121,8 +116,7 @@ const AddWordForm = ({ addWord }) => {
             type="text"
             id="meaning"
             name="meaning"
-            value={meaning}
-            onChange={(e) => setMeaning(e.target.value)}
+            onChange={handleInput}
             required
           />
 
@@ -130,8 +124,8 @@ const AddWordForm = ({ addWord }) => {
           <TextArea
             id="sentence"
             name="sentence"
-            value={sentence}
-            onChange={(e) => setSentence(e.target.value)}
+            rows="4"
+            onChange={handleInput}
             required
           ></TextArea>
 

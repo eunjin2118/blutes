@@ -199,6 +199,22 @@ app.get('/posts/:id', (req, res) => {
   });
 });
 
+// 단어장
+app.post('/addworld', (req, res) => {
+  const sql = "INSERT INTO word (`word`, `meaning`, `sentence`, `date`) VALUES (?, ?, ?, ?)";
+      const values = [
+          req.body.word,
+          req.body.meaning,
+          req.body.sentence,
+          req.body.date
+      ];
+      db.query(sql, values, (err, result)=>{
+          if(err) return res.json({Error: "Inserting data Error in server"});
+          return res.json({Status : "Success"});
+      })
+})
+
+
 app.listen(5000, ()=>{
     console.log("Connectd to server");
 })
