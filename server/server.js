@@ -119,25 +119,6 @@ app.post('/add', (req, res) => {
   });
 });
 
-app.post('/comments/:id', (req, res) => {
-  const postId = req.params.id;
-  const commentContent = req.body.comment;
-        // 댓글 추가
-        const insertSql = "INSERT INTO comments (post_id, content) VALUES (?, ?)";
-        const insertParams = [postId, commentContent];
-
-        db.query(insertSql, insertParams, (err, rows) => {
-          if (err) {
-            console.log(err);
-            res.send('Error occurred while adding comment.');
-          } else {
-            console.log('댓글 추가 완료');
-            res.json(rows);
-          }
-        });
-      }
-);
-
 // 게시판 조회
 app.get('/getPosts', (req, res) => {
   var selectSql = "SELECT id, title, DATE_FORMAT(post_date, '%Y-%m-%d') AS post_date, content FROM board"; // post_date를 YYYY-MM-DD 형식으로 가져옴
