@@ -55,13 +55,13 @@ const Title = styled.h1`
 `;
 
 const WriteDate = styled.p`
-  margin: 0 0 0 460px; // 왼쪽 마진만 설정
+  margin-top: -10px;
   text-align: right;
 `;
 
 const Content = styled.p`
-  text-align: center;
-  margin-top: 40px;
+  text-align: left;
+  margin-top: 20px;
 `;
 
 const View = styled.p`
@@ -138,6 +138,10 @@ const CommenterCount = styled.p`
   color: #071DA1;
 `;
 
+const ViewWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
 const CommunityPage = () => {
   const [posts, setPosts] = useState([]);
 
@@ -176,17 +180,19 @@ const CommunityPage = () => {
         <PageContainer>
           {
             posts && posts.map(p => {
-          return <div>
+          return <div style={{ width: '100%' }}>
             <TitleWrapper>
               <Title className='Title'>{p.title}</Title>
-              <WriteDate className='WriteDate'>{p.post_date}</WriteDate>
             </TitleWrapper>
+            <WriteDate className='WriteDate'>{p.post_date}</WriteDate>
             <Content className='Content' dangerouslySetInnerHTML={ {__html: p.content } }></Content>
-            <View className='View'>조회수 0</View>
-            <IconWrapper>
-              <CommentIcon />
-              <HeartIcon />
-            </IconWrapper>
+            <ViewWrapper>
+              <View className='View'>조회수 0</View>
+              <IconWrapper>
+                <CommentIcon />
+                <HeartIcon />
+              </IconWrapper>
+            </ViewWrapper>
             <hr/>
           </div>
             })
