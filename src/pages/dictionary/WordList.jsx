@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from "../Header.js";
+import axios from 'axios';
 
 const Container = styled.div`
   margin-top: 8%;
@@ -36,11 +37,14 @@ const WordList = () => {
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
 
-
-  const addWord = (newWord) => {
-    setWords([...words, newWord]);
-  };
-
+  useEffect(()=>{
+    axios.get('getWords')
+    .then((response) =>{
+      console.log(response);
+      const data = response.data; // 가져온 데이터
+      setWords(data); // 단어 데이터 배열에 설정
+    })
+  }, []);
 
   return (
     <>
