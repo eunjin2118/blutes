@@ -150,7 +150,7 @@ app.get('/getPosts', (req, res) => {
       
       // 게시물별로 댓글을 가져오는 로직 추가
       const postsWithComments = rows.map(async (post) => {
-        const commentSql = "SELECT comment FROM comments WHERE post_id = ?";
+        const commentSql = "SELECT content FROM comments WHERE post_id = ?";
         const comments = await new Promise((resolve, reject) => {
           db.query(commentSql, [post.id], (err, commentRows) => {
             if (err) {
