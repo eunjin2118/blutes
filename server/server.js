@@ -36,6 +36,8 @@ db.connect((err)=>{
     }
 });
 
+
+// 회원가입
 app.post('/signup', (req, res) => {
     bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
         if(err) return res.json({Error: "Error from hassing password"});
@@ -54,6 +56,7 @@ app.post('/signup', (req, res) => {
     
 })
 
+// 로그인
 app.post('/login', (req, res) => {
     const sql = "SELECT email, password FROM login WHERE email=?";
     db.query(sql, req.body.email, (err, data) => {
@@ -77,6 +80,7 @@ app.post('/login', (req, res) => {
     })
 })
 
+// 게시판 글 작성한 데이터 전송
 app.post('/add', (req, res) => {
   console.log('저장완료');
   // 입력한 값 가져오기
@@ -114,19 +118,61 @@ app.post('/add', (req, res) => {
     }
   });
 });
-  
+
+app.post('/comments/:id', (req, res) => {
+  const postId = req.params.id;
+  const commentContent = req.body.comment;
+        // 댓글 추가
+        const insertSql = "INSERT INTO comments (post_id, content) VALUES (?, ?)";
+        const insertParams = [postId, commentContent];
+
+        db.query(insertSql, insertParams, (err, rows) => {
+          if (err) {
+            console.log(err);
+            res.send('Error occurred while adding comment.');
+          } else {
+            console.log('댓글 추가 완료');
+            res.json(rows);
+          }
+        });
+      }
+);
+
+// 게시판 조회
 app.get('/getPosts', (req, res) => {
   var selectSql = "SELECT id, title, DATE_FORMAT(post_date, '%Y-%m-%d') AS post_date, content FROM board"; // post_date를 YYYY-MM-DD 형식으로 가져옴
   db.query(selectSql, (err, rows) => {
     if (err) {
       console.log(err);
-      res.send('Error occurred while retrieving data.');
+      res.send('데이터를 가져오는 중에 오류가 발생했습니다.');
     } else {
       console.log('데이터 조회 완료');
-      res.json(rows);
+      
+      // 게시물별로 댓글을 가져오는 로직 추가
+      const postsWithComments = rows.map(async (post) => {
+        const commentSql = "SELECT comment FROM comments WHERE post_id = ?";
+        const comments = await new Promise((resolve, reject) => {
+          db.query(commentSql, [post.id], (err, commentRows) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(commentRows.map(row => row.comment));
+            }
+          });
+        });
+        return { ...post, comments };
+      });
+      
+      Promise.all(postsWithComments)
+        .then((posts) => res.json(posts))
+        .catch((error) => {
+          console.log(error);
+          res.send('댓글을 가져오는 중에 오류가 발생했습니다.');
+        });
     }
   });
 });
+
 
   
 
