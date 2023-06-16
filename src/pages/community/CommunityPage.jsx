@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { RiHeart2Line, RiChat1Line } from 'react-icons/ri'; // 하트와 댓글 아이콘 추가
 import Header from "../Header.js";
@@ -50,18 +49,18 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  margin: 0;
+  margin-top: -5%;
   flex-grow: 1;
 `;
 
 const WriteDate = styled.p`
-  margin-top: -10px;
+  margin-top: 0.5%;
   text-align: right;
 `;
 
 const Content = styled.p`
   text-align: left;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 const View = styled.p`
@@ -181,10 +180,10 @@ const CommunityPage = () => {
           {
             posts && posts.map(p => {
           return <div style={{ width: '100%' }}>
+            <WriteDate className='WriteDate'>{p.post_date}</WriteDate>
             <TitleWrapper>
               <Title className='Title'>{p.title}</Title>
             </TitleWrapper>
-            <WriteDate className='WriteDate'>{p.post_date}</WriteDate>
             <Content className='Content' dangerouslySetInnerHTML={ {__html: p.content } }></Content>
             <ViewWrapper>
               <View className='View'>조회수 0</View>
