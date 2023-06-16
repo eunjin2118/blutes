@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import MainPage from './pages/MainPage.jsx';
 import LoginPage from './pages/login.jsx';
-import SignupPage from './pages/Signup';
+import SignupPage from './pages/signup';
 import DictionaryPage from './pages/dictionary/AddWordForm';
 import CommunityPage from './pages/community/CommunityPage';
 import PostPage from './pages/community/post';
@@ -22,7 +22,7 @@ function App() {
           <Route exact path='/community' element={<CommunityPage/>}/>
           <Route exact path='/post' element={<PostPage/>}/>
           <Route exact path='/detailcommunity/:postId' element={<CommunityDetailPage />}/>
-          <Route exact path='/worldlist' element={<WordList/>}/>
+          <Route exact path='/wordlist' element={<WordList/>}/>
         </Routes>
       </Router>
     </div>
