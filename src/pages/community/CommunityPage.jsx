@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { RiHeart2Line, RiChat1Line } from 'react-icons/ri'; // 하트와 댓글 아이콘 추가
+import { RiHeart2Line, RiChat1Line } from 'react-icons/ri';
 import Header from "../Header.js";
 import { useNavigate } from 'react-router-dom';
 
@@ -143,22 +143,28 @@ const ViewWrapper = styled.div`
   justify-content: space-between;
 `;
 
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}년 ${month}월 ${day}일`;
+};
+
 const CommunityPage = () => {
   const [posts, setPosts] = useState([]);
   const [todayDate, setTodayDate] = useState(''); // 오늘 날짜 state 추가
+  const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
 
-
   useEffect(() => {
-    // API를 통해 포스트 데이터를 가져오는 함수
     const fetchPosts = async () => {
       try {
-        const response = await fetch('http://localhost:3000/getPosts');
+        const response = await fetch(`/search?search=${searchInput}`);
         const data = await response.json();
-        console.log(data);
         setPosts(data);
       } catch (error) {
-        console.log(error);
+        console.log("Error fetching posts:", error);
       }
     };
 
@@ -174,23 +180,30 @@ const CommunityPage = () => {
 
     fetchPosts();
     getTodayDate();
-  }, []);
+  }, [searchInput]);
 
-  // post페이지로 이동하는 버튼
   const handlePostButtonClick = () => {
-    navigate('/post'); // '/post' 경로로 이동
+    navigate('/post');
   };
 
-  // detail 페이지로 이동하는 버튼
   const handleDetailIconClick = (postId) => {
     navigate(`/detailcommunity/${postId}`);
+  };
+
+  const handleSearchInputChange = (event) => {
+    setSearchInput(event.target.value);
   };
 
   return (
     <div>
       <Header />
       <SearchContainer>
-        <SearchInput type="text" placeholder="검색어 입력" />
+        <SearchInput
+          type="text"
+          placeholder="검색어 입력"
+          value={searchInput}
+          onChange={handleSearchInputChange}
+        />
         <SearchIcon src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" />
         <PostButton onClick={handlePostButtonClick}>작성하기</PostButton>
       </SearchContainer>
@@ -200,9 +213,9 @@ const CommunityPage = () => {
           {posts &&
             posts.map((p) => (
               <div style={{ width: '100%' }} key={p.id}>
-                <WriteDate className='WriteDate'>{p.post_date}</WriteDate>
+                <WriteDate>{formatDate(p.post_date)}</WriteDate>
                 <TitleWrapper>
-                  <Title className='Title'>{p.title}</Title>
+                  <Title>{p.title}</Title>
                 </TitleWrapper>
                 <Content
                   className='Content'
@@ -227,7 +240,7 @@ const CommunityPage = () => {
           <CommenterCount className='CommenterCount'>00명</CommenterCount>
         </TodayContainer>
       </Wrapper>
-    </div>
+    </div >
   );
 };
 
