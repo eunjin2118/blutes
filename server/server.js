@@ -176,9 +176,18 @@ app.post('/addworld', (req, res) => {
 app.get('/getWords', (req, res) => {
     const sql = "SELECT word, meaning, sentence, DATE_FORMAT(date, '%Y-%m-%d') AS date FROM word";
     db.query(sql, (err, result)=>{
-      if(err) return res.json({Error: "Inserting data Error in server"});
+      if(err) return res.json({Error: "Select data Error in server"});
       return res.json(result);
   })
+})
+
+// 퀴즈
+app.get('/quiz', (req, res)=>{
+  const sql = "SELECT * FROM quiz";
+  db.query(sql, (err, result)=>{
+    if(err) return res.json({Error: "Select data Error in server"});
+    return res.json(result);
+})
 })
 
 app.post('/comments/:id', (req, res) => {

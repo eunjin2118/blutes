@@ -42,26 +42,29 @@ const NextButton = styled.button`
 `;
 
 const WordQuizPage = () => {
-  const [words, setWords] = useState([]);
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [quizs, setQuizs] = useState([]);
+  const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [showNextButton, setShowNextButton] = useState(false);
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get('getWords');
-  //       const data = response.data.slice(0, 10); // 최대 10문제까지 설정
-  //       setWords(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await axios.get('quiz')
+        .then((response) =>{
+          console.log(response);
+          const data = response.data.slice(0, 10); // 최대 10문제까지 설정
+          console.log(data);
+          setQuizs(data); // 단어 데이터 배열에 설정
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleOptionClick = (isCorrect) => {
     if (isCorrect) {
@@ -72,14 +75,14 @@ const WordQuizPage = () => {
 
   const handleNextButtonClick = () => {
     setShowNextButton(false);
-    if (currentWordIndex < 9) { // 10문제까지만 퀴즈 진행
-      setCurrentWordIndex((prevIndex) => prevIndex + 1);
+    if (currentQuizIndex < 9) { // 10문제까지만 퀴즈 진행
+      setCurrentQuizIndex((prevIndex) => prevIndex + 1);
     } else {
       console.log('퀴즈 종료. 점수:', score);
     }
   };
 
-  const currentWord = words[currentWordIndex];
+  const currentWord = quizs[currentQuizIndex];
 
   return (
     <>
@@ -93,10 +96,10 @@ const WordQuizPage = () => {
 
       <QuizContainer>
         {/* 단어 목록이 존재하는 경우 */}
-        {words.length > 0 && (
+        {quizs.length > 0 && (
           <>
             {/* 현재 단어 표시 */}
-            <QuizWord>{currentWord.word}</QuizWord>
+            <QuizWord>{currentWord.quizs}</QuizWord>
             {/* 선택지 표시 */}
             <QuizOptions>
               {currentWord.options.map((option, index) => (
