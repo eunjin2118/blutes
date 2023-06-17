@@ -128,29 +128,7 @@ app.get('/getPosts', (req, res) => {
       res.send('데이터를 가져오는 중에 오류가 발생했습니다.');
     } else {
       console.log('데이터 조회 완료');
-      
-      //게시물별로 댓글을 가져오는 로직 추가
-      const postsWithComments = rows.map(async (post) => {
-        const commentSql = "SELECT content FROM comments WHERE post_id = ?";
-        const comments = await new Promise((resolve, reject) => {
-          db.query(commentSql, [post.id], (err, commentRows) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(commentRows.map(row => row.comment));
-            }
-          });
-        });
-        return { ...post, comments };
-      });
-      
-      Promise.all(postsWithComments)
-        .then((posts) => res.json(posts))
-        .catch((error) => {
-          console.log(error);
-          res.send('댓글을 가져오는 중에 오류가 발생했습니다.');
-        });
-      }
+    }
   });
 });
 
