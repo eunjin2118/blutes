@@ -274,7 +274,7 @@ const CommunityPage = () => {
           <TodayVisitor className='TodayVisitor'>오늘의 방문자</TodayVisitor>
           <VisitorCount className='VisitorCount'>00명</VisitorCount>
           <TodayComment className='TodayComment'>총 게시물 수</TodayComment>
-          <CommenterCount className='CommenterCount'>00개</CommenterCount>
+          <CommenterCount className='CommenterCount'>{posts.length}</CommenterCount>
         </TodayContainer>
       </Wrapper>
     </div >
