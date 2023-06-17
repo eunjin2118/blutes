@@ -121,7 +121,7 @@ app.post('/add', (req, res) => {
 
 // 게시판 조회
 app.get('/getPosts', (req, res) => {
-  var selectSql = "SELECT id, title, DATE_FORMAT(post_date, '%Y-%m-%d') AS post_date, content, views FROM board"; // post_date를 YYYY-MM-DD 형식으로 가져옴
+  var selectSql = "SELECT id, title, DATE_FORMAT(post_date, '%Y-%m-%d') AS post_date, content, views, likes FROM board"; // post_date를 YYYY-MM-DD 형식으로 가져옴
   db.query(selectSql, (err, rows) => {
     if (err) {
       console.log(err);
@@ -238,6 +238,26 @@ app.post('/updateViews/:postId', (req, res) => {
     }
   });
 });
+
+// 좋아요
+app.post('/updateLikes/:postId', (req, res) => {
+  const postId = req.params.postId;
+
+  // 좋아요 수 업데이트 로직 작성
+  // 예: 게시물을 데이터베이스에서 찾아서 좋아요 필드를 1씩 증가시킴
+
+  const updateSql = "UPDATE board SET likes = likes + 1 WHERE id = ?";
+  db.query(updateSql, [postId], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send('좋아요 수 업데이트 중에 오류가 발생했습니다.');
+    } else {
+      console.log('좋아요 수 업데이트 완료');
+      res.sendStatus(200);
+    }
+  });
+});
+
 
 
 app.listen(5000, ()=>{
