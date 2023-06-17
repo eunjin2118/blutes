@@ -8,6 +8,7 @@ import CommunityPage from './pages/community/CommunityPage';
 import PostPage from './pages/community/post';
 import WordList from './pages/dictionary/WordList.jsx';
 import CommunityDetailPage from './pages/community/CommunityDetail';
+import WordQuizPage from './pages/dictionary/Quiz';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route exact path='/post' element={<PostPage/>}/>
           <Route exact path='/detailcommunity/:postId' element={<CommunityDetailPage />}/>
           <Route exact path='/wordlist' element={<WordList/>}/>
+          <Route exact path='/wordquiz' element={<WordQuizPage />}/>
         </Routes>
       </Router>
     </div>

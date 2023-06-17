@@ -116,6 +116,11 @@ const WordList = () => {
      navigate('/dictionary'); // '/dictionary' 경로로 이동
    };
 
+   // WordQuizPage페이지로 이동하는 버튼
+   const handleStartButtonClick = () => {
+    navigate('/wordquiz'); // '/wordquiz' 경로로 이동
+  };
+
   return (
     <>
       <Header
@@ -133,7 +138,7 @@ const WordList = () => {
         <MyWords>나의 단어장</MyWords>
         <Buttons>
           <Addword className='AddWord' onClick={handlePostButtonClick}>단어추가</Addword>
-          <StartQuiz className='StartQuiz'>퀴즈보기</StartQuiz>
+          <StartQuiz className='StartQuiz' onClick={handleStartButtonClick}>퀴즈보기</StartQuiz>
         </Buttons>
       </TopContainer>
       <br/>
