@@ -238,13 +238,6 @@ const CommunityDetail = (props) => {
                 className='Content'
                 dangerouslySetInnerHTML={{ __html: post.content }}
               ></Content>
-              <ViewWrapper>
-                <View className='View'>조회수 0</View>
-                <IconWrapper>
-                  <CommentIcon />
-                  <HeartIcon />
-                </IconWrapper>
-              </ViewWrapper>
               <hr />
               <CommentWrapper>
                 <CommentForm onSubmit={handleCommentSubmit}>
