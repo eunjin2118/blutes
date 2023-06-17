@@ -253,7 +253,7 @@ const CommunityDetail = (props) => {
                     value={newComment}
                     onChange={handleCommentChange}
                   />
-                  <CommentButton type="submit">댓글 작성</CommentButton>
+                  <CommentButton type="submit" onClick={() => window.location.reload()}>댓글 작성</CommentButton>
                 </CommentForm>
                 <hr />
                 {comments.map((comment, index) => (
