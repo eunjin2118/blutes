@@ -119,6 +119,7 @@ const CommentInput = styled.input`
 const CommentButton = styled.button`
   height: 35px;
   border-radius: 2px;
+  cursor: pointer;
 `;
 
 const Comment = styled.div`
@@ -236,7 +237,7 @@ const CommunityDetail = (props) => {
         <PageContainer>
           {post && (
             <div>
-              <FaArrowLeft onClick={handleGoBack} />
+              <FaArrowLeft onClick={handleGoBack} style={{cursor: 'pointer'}} />
               <TitleWrapper>
                 <Title className='Title'>{post.title}</Title>
               </TitleWrapper>

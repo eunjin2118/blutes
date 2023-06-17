@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { RiHeart2Line, RiChat1Line } from 'react-icons/ri';
+import { RiHeart2Fill, RiChat1Line } from 'react-icons/ri';
 import Header from "../Header.js";
 import { useNavigate } from 'react-router-dom';
 
@@ -76,16 +76,20 @@ const IconWrapper = styled.div`
   align-self: flex-end; /* 아이콘을 오른쪽으로 정렬 */
 `;
 
-const HeartIcon = styled(RiHeart2Line)`
+const HeartIcon = styled(RiHeart2Fill)`
   margin-right: 13px;
   width: 30px;
   height: 30px;
+  color: ${({ filled }) => (filled ? '#FF0000' : 'inherit')}; /* 추가된 부분 */
+  transition: color 0.3s; /* 추가된 부분 */
+  cursor: pointer;
 `;
 
 const CommentIcon = styled(RiChat1Line)`
   margin-right: 8px;
   width: 30px;
   height: 30px;
+  cursor: pointer;
 `;
 
 const PageContainer = styled.div`
@@ -215,6 +219,15 @@ const CommunityPage = () => {
     setSearchInput(event.target.value);
   };
 
+  const handleHeartIconClick = (postId) => {
+    // 현재 클릭된 아이템의 postId와 일치하는 아이템을 찾아서 상태를 업데이트합니다.
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId ? { ...post, filled: !post.filled } : post
+      )
+    );
+  };
+
   return (
     <div>
       <Header />
@@ -246,7 +259,10 @@ const CommunityPage = () => {
                   <View className='View'>조회수 {p.views}</View>
                   <IconWrapper>
                     <CommentIcon onClick={() => handleDetailIconClick(p.id)} />
-                    <HeartIcon />
+                    <HeartIcon
+                    filled={p.filled} /* 추가된 부분 */
+                    onClick={() => handleHeartIconClick(p.id)} /* 추가된 부분 */
+                  />
                   </IconWrapper>
                 </ViewWrapper>
                 <hr />
@@ -257,8 +273,8 @@ const CommunityPage = () => {
           <Todate className='Todate'>{todayDate}</Todate>
           <TodayVisitor className='TodayVisitor'>오늘의 방문자</TodayVisitor>
           <VisitorCount className='VisitorCount'>00명</VisitorCount>
-          <TodayComment className='TodayComment'>오늘의 포스트/답글</TodayComment>
-          <CommenterCount className='CommenterCount'>00명</CommenterCount>
+          <TodayComment className='TodayComment'>총 게시물 수</TodayComment>
+          <CommenterCount className='CommenterCount'>00개</CommenterCount>
         </TodayContainer>
       </Wrapper>
     </div >
