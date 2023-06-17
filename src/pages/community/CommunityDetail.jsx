@@ -79,11 +79,7 @@ const IconWrapper = styled.div`
 `;
 
 const HeartIcon = styled(RiHeart2Line)`
-  margin-right: 13px;
-`;
-
-const CommentIcon = styled(RiChat1Line)`
-  margin-right: 8px;
+  margin-right: 2%;
 `;
 
 const PageContainer = styled.div`
@@ -104,7 +100,7 @@ const Wrapper = styled.div`
 
 const ViewWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 `;
 
 const CommentWrapper = styled.div`
@@ -146,6 +142,8 @@ const CommunityDetail = (props) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const { postId } = useParams();
+  const [isToggled, setIsToggled] = useState(false);
+  const [userToggled, setUserToggled] = useState(false);
 
   useEffect(() => {
     // 포스트 데이터 및 댓글 목록을 가져오는 함수
@@ -219,7 +217,12 @@ const CommunityDetail = (props) => {
 
   return (
     <div>
-      <Header />
+      <Header
+      isToggled={isToggled}
+      userToggled={userToggled}
+      setIsToggled={setIsToggled}
+      setUserToggled={setUserToggled}
+      />
       <SearchContainer>
         <SearchInput type="text" placeholder="검색어 입력" />
         <SearchIcon src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" />
