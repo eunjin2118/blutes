@@ -231,7 +231,7 @@ const CommunityPage = () => {
         if (response.ok) {
           setPosts((prevPosts) =>
             prevPosts.map((post) =>
-              post.id === postId ? { ...post, filled: true, likes: post.likes + 1 } : post
+              post.id === postId ? { ...post, filled: "true", likes: post.likes + 1 } : post
             )
           );
         } else {
