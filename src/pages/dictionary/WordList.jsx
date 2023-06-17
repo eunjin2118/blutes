@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from "../Header.js";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SearchContainer = styled.div`
   position: relative;
@@ -99,6 +100,7 @@ const WordList = () => {
   const [words, setWords] = useState([]); // 단어 데이터 배열
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(()=>{
     axios.get('getWords')
@@ -110,9 +112,9 @@ const WordList = () => {
   }, []);
 
   // AddWordForm페이지로 이동하는 버튼
-  // const handlePostButtonClick = () => {
-  //   navigate('/post'); // '/post' 경로로 이동
-  // };
+   const handlePostButtonClick = () => {
+     navigate('/dictionary'); // '/dictionary' 경로로 이동
+   };
 
   return (
     <>
@@ -130,7 +132,7 @@ const WordList = () => {
       <TopContainer>
         <MyWords>나의 단어장</MyWords>
         <Buttons>
-          <Addword className='AddWord'>단어추가</Addword>
+          <Addword className='AddWord' onClick={handlePostButtonClick}>단어추가</Addword>
           <StartQuiz className='StartQuiz'>퀴즈보기</StartQuiz>
         </Buttons>
       </TopContainer>
