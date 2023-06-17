@@ -222,6 +222,26 @@ app.post('/comments/:id', (req, res) => {
   });
 });
 
+// 검색 기능
+app.get("/search", (req, res) => {
+  let search = req.query.search;
+  let title = req.query.title || "";
+  console.log(`/search 시작`);
+  //console.log("search 는" + search + "다");
+  db.query(
+    "SELECT * FROM board WHERE title LIKE ?",
+    ["%" + search + "%", "%" + title + "%"],
+    (err, results) => {
+      if (err) {
+        console.log("db select error" + err);
+      } else {
+        console.log(results);
+        res.send(results);
+      }
+    }
+  );
+});
+
 app.listen(5000, ()=>{
     console.log("Connectd to server");
 })
