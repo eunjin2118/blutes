@@ -151,6 +151,22 @@ const formatDate = (dateString) => {
   return `${year}년 ${month}월 ${day}일`;
 };
 
+const updateViews = async (postId) => {
+  try {
+    const response = await fetch(`/updateViews/${postId}`, {
+      method: 'POST'
+    });
+    if (response.ok) {
+      console.log('조회수 업데이트 완료');
+    } else {
+      console.log('조회수 업데이트 중에 오류가 발생했습니다.');
+    }
+  } catch (error) {
+    console.log('조회수 업데이트 중에 오류가 발생했습니다.', error);
+  }
+};
+
+
 const CommunityPage = () => {
   const [posts, setPosts] = useState([]);
   const [todayDate, setTodayDate] = useState(''); // 오늘 날짜 state 추가
@@ -187,6 +203,7 @@ const CommunityPage = () => {
   };
 
   const handleDetailIconClick = (postId) => {
+    updateViews(postId);
     navigate(`/detailcommunity/${postId}`);
   };
 
@@ -222,7 +239,7 @@ const CommunityPage = () => {
                   dangerouslySetInnerHTML={{ __html: p.content }}
                 ></Content>
                 <ViewWrapper>
-                  <View className='View'>조회수 0</View>
+                  <View className='View'>조회수 {p.views}</View>
                   <IconWrapper>
                     <CommentIcon onClick={() => handleDetailIconClick(p.id)} />
                     <HeartIcon />
