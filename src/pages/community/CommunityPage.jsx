@@ -219,14 +219,30 @@ const CommunityPage = () => {
     setSearchInput(event.target.value);
   };
 
-  const handleHeartIconClick = (postId) => {
-    // 현재 클릭된 아이템의 postId와 일치하는 아이템을 찾아서 상태를 업데이트합니다.
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === postId ? { ...post, filled: !post.filled } : post
-      )
-    );
+  const handleHeartIconClick = async (postId) => {
+    const likedPost = posts.find((post) => post.id === postId);
+  
+    if (likedPost && !likedPost.filled) {
+      try {
+        const response = await fetch(`/updateLikes/${postId}`, {
+          method: 'POST'
+        });
+  
+        if (response.ok) {
+          setPosts((prevPosts) =>
+            prevPosts.map((post) =>
+              post.id === postId ? { ...post, filled: true, likes: post.likes + 1 } : post
+            )
+          );
+        } else {
+          console.log('좋아요 수 업데이트 중에 오류가 발생했습니다.');
+        }
+      } catch (error) {
+        console.log('좋아요 수 업데이트 중에 오류가 발생했습니다.', error);
+      }
+    }
   };
+  
 
   return (
     <div>
@@ -262,7 +278,7 @@ const CommunityPage = () => {
                     <HeartIcon
                     filled={p.filled} /* 추가된 부분 */
                     onClick={() => handleHeartIconClick(p.id)} /* 추가된 부분 */
-                  />
+                  />{p.likes}
                   </IconWrapper>
                 </ViewWrapper>
                 <hr />
