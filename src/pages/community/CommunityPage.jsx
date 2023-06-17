@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { RiHeart2Fill, RiChat1Line } from 'react-icons/ri';
-import Header from "../Header.js";
+import Header from "../Header";
 import { useNavigate } from 'react-router-dom';
 
 // 스타일드 컴포넌트 정의
@@ -179,6 +179,8 @@ const CommunityPage = () => {
   const [posts, setPosts] = useState([]);
   const [todayDate, setTodayDate] = useState(''); // 오늘 날짜 state 추가
   const [searchInput, setSearchInput] = useState("");
+  const [isToggled, setIsToggled] = useState(false);
+  const [userToggled, setUserToggled] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -246,7 +248,12 @@ const CommunityPage = () => {
 
   return (
     <div>
-      <Header />
+      <Header
+      isToggled={isToggled}
+      userToggled={userToggled}
+      setIsToggled={setIsToggled}
+      setUserToggled={setUserToggled}
+      />
       <SearchContainer>
         <SearchInput
           type="text"

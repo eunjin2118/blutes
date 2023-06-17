@@ -70,6 +70,8 @@ const SubmitButton = styled.input`
 `;
 
 const AddWordForm = () => {
+  const [isToggled, setIsToggled] = useState(false);
+  const [userToggled, setUserToggled] = useState(false);
   const navigate = useNavigate();
 
   const [values, setValues] = useState({
@@ -98,7 +100,12 @@ const AddWordForm = () => {
 
   return (
     <>
-      <Header />
+      <Header
+      isToggled={isToggled}
+      userToggled={userToggled}
+      setIsToggled={setIsToggled}
+      setUserToggled={setUserToggled}
+      />
       <Container>
         <Title>단어 추가하기</Title>
         <Form onSubmit={handleSubmit}>
