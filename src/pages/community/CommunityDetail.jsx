@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { RiHeart2Line} from 'react-icons/ri';
+import { RiHeart2Fill} from 'react-icons/ri';
 import { FaArrowLeft } from 'react-icons/fa';
 import Header from "../Header.js";
 import { useParams } from 'react-router-dom';
@@ -72,7 +72,7 @@ const IconWrapper = styled.div`
   align-self: flex-end; /* 아이콘을 오른쪽으로 정렬 */
 `;
 
-const HeartIcon = styled(RiHeart2Line)`
+const HeartIcon = styled(RiHeart2Fill)`
   margin-right: 2%;
   width: 30px;
   height: 30px;
