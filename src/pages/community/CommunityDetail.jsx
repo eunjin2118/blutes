@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { RiHeart2Line, RiChat1Line } from 'react-icons/ri';
+import { RiHeart2Line} from 'react-icons/ri';
+import { FaArrowLeft } from 'react-icons/fa';
 import Header from "../Header.js";
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 
 // 스타일드 컴포넌트 정의 ...
@@ -52,23 +54,15 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  margin-top: -5%;
+  margin-left: 20px;
+  margin-top: 2%;
   flex-grow: 1;
 `;
 
-const WriteDate = styled.p`
-  margin-top: 0.5%;
-  text-align: right;
-`;
-
 const Content = styled.p`
+  margin-left: 30px;
   text-align: left;
   margin-top: 10px;
-`;
-
-const View = styled.p`
-  align-self: flex-start;
-  margin-bottom: 0;
 `;
 
 const IconWrapper = styled.div`
@@ -80,6 +74,8 @@ const IconWrapper = styled.div`
 
 const HeartIcon = styled(RiHeart2Line)`
   margin-right: 2%;
+  width: 30px;
+  height: 30px;
 `;
 
 const PageContainer = styled.div`
@@ -144,6 +140,8 @@ const CommunityDetail = (props) => {
   const { postId } = useParams();
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     // 포스트 데이터 및 댓글 목록을 가져오는 함수
@@ -215,6 +213,11 @@ const CommunityDetail = (props) => {
     window.location.href = '/post'; // '/post' 경로로 이동
   };
 
+  // <- 아이콘을 눌렀을 때 이전페이지로 이동
+  const handleGoBack = () => {
+    navigate(-1); // 이전 페이지로 이동
+  };
+
   return (
     <div>
       <Header
@@ -233,7 +236,7 @@ const CommunityDetail = (props) => {
         <PageContainer>
           {post && (
             <div>
-              <WriteDate className='WriteDate'>{post.post_date}</WriteDate>
+              <FaArrowLeft onClick={handleGoBack} />
               <TitleWrapper>
                 <Title className='Title'>{post.title}</Title>
               </TitleWrapper>

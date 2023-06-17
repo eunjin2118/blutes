@@ -78,10 +78,14 @@ const IconWrapper = styled.div`
 
 const HeartIcon = styled(RiHeart2Line)`
   margin-right: 13px;
+  width: 30px;
+  height: 30px;
 `;
 
 const CommentIcon = styled(RiChat1Line)`
   margin-right: 8px;
+  width: 30px;
+  height: 30px;
 `;
 
 const PageContainer = styled.div`
