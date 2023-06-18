@@ -181,6 +181,7 @@ const CommunityPage = () => {
   const [searchInput, setSearchInput] = useState("");
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
+  const [visitorCount, setVisitorCount] = useState(0); // Add visitorCount state
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -204,8 +205,21 @@ const CommunityPage = () => {
       setTodayDate(formattedDate);
     };
 
+    const increaseVisitorCount = () => {
+      const count = localStorage.getItem('visitorCount');
+      if (count) {
+        const newCount = parseInt(count) + 1;
+        setVisitorCount(newCount);
+        localStorage.setItem('visitorCount', newCount);
+      } else {
+        setVisitorCount(1);
+        localStorage.setItem('visitorCount', 1);
+      }
+    };
+
     fetchPosts();
     getTodayDate();
+    increaseVisitorCount(); // Call the visitor count function
   }, [searchInput]);
 
   const handlePostButtonClick = () => {
@@ -295,7 +309,7 @@ const CommunityPage = () => {
         <TodayContainer>
           <Todate className='Todate'>{todayDate}</Todate>
           <TodayVisitor className='TodayVisitor'>오늘의 방문자</TodayVisitor>
-          <VisitorCount className='VisitorCount'>00명</VisitorCount>
+          <VisitorCount className='VisitorCount'>{visitorCount}명</VisitorCount>
           <TodayComment className='TodayComment'>총 게시물 수</TodayComment>
           <CommenterCount className='CommenterCount'>{posts.length}</CommenterCount>
         </TodayContainer>
