@@ -267,6 +267,7 @@ app.post('/updateLikes/:postId', (req, res) => {
   });
 });
 
+// 외부 api연동
 const axios = require('axios');
 
 const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
