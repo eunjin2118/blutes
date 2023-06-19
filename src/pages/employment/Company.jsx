@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const categories = [
   { id: 1, name: '학력' },
@@ -93,13 +94,31 @@ const Title = styled.h1`
 const CompanyCardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px; /* 변경된 값 */
+  gap: 20px;
   max-width: 800px;
   width: 100%;
 `;
 
 const Company = () => {
   const [activeCategories, setActiveCategories] = useState([]);
+  
+  const [companies, setCompanies] = useState([]);
+
+  useEffect(() => {
+    const apiUrl = 'YOUR_API_URL'; // Replace with your API URL
+
+    const fetchCompanies = async () => {
+      try {
+        const response = await axios.get(apiUrl);
+        const data = response.data;
+        setCompanies(data);
+      } catch (error) {
+        console.error('API 요청 오류:', error);
+      }
+    };
+
+    fetchCompanies();
+  }, []);
 
   const handleCategoryClick = categoryId => {
     setActiveCategories(prevActiveCategories => {
@@ -122,7 +141,7 @@ const Company = () => {
           switch (categoryId) {
             case 1:
               categoryOptions = (
-                <>
+                <React.Fragment key={categoryId}> {/* key 속성 추가 */}
                   <OptionItem key={1}>
                     <Checkbox type="checkbox" id="option1" name="option1" value="학력무관" />
                     <OptionLabel htmlFor="option1">학력무관</OptionLabel>
@@ -131,12 +150,12 @@ const Company = () => {
                     <Checkbox type="checkbox" id="option2" name="option2" value="고졸" />
                     <OptionLabel htmlFor="option2">고졸</OptionLabel>
                   </OptionItem>
-                </>
+                </React.Fragment>
               );
               break;
             case 2:
               categoryOptions = (
-                <>
+                <React.Fragment key={categoryId}> {/* key 속성 추가 */}
                   <OptionItem key={3}>
                     <Checkbox type="checkbox" id="option3" name="option3" value="신입" />
                     <OptionLabel htmlFor="option3">신입</OptionLabel>
@@ -145,12 +164,12 @@ const Company = () => {
                     <Checkbox type="checkbox" id="option4" name="option4" value="관계없음" />
                     <OptionLabel htmlFor="option4">관계없음</OptionLabel>
                   </OptionItem>
-                </>
+                </React.Fragment>
               );
               break;
             case 3:
               categoryOptions = (
-                <>
+                <React.Fragment key={categoryId}> {/* key 속성 추가 */}
                   <OptionItem key={5}>
                     <Checkbox type="checkbox" id="option5" name="option5" value="중소기업" />
                     <OptionLabel htmlFor="option5">중소기업</OptionLabel>
@@ -163,7 +182,7 @@ const Company = () => {
                     <Checkbox type="checkbox" id="option7" name="option7" value="스타트업" />
                     <OptionLabel htmlFor="option7">스타트업</OptionLabel>
                   </OptionItem>
-                </>
+                </React.Fragment>
               );
               break;
             default:
@@ -193,21 +212,15 @@ const Company = () => {
         {renderOptions()}
       </AppWrapper>
       <CompanyList>
-        <CompanyCard>
-          <CompanyName>회사 이름 1</CompanyName>
-          <CompanyTitle>제목 1</CompanyTitle>
-        </CompanyCard>
-        <CompanyCard>
-          <CompanyName>회사 이름 2</CompanyName>
-          <CompanyTitle>제목 2</CompanyTitle>
-        </CompanyCard>
-        <CompanyCard>
-          <CompanyName>회사 이름 3</CompanyName>
-          <CompanyTitle>제목 3</CompanyTitle>
-        </CompanyCard>
+        {companies.map(company => (
+          <CompanyCard key={company.id}>
+            <CompanyName>{company.name}</CompanyName>
+            <CompanyTitle>{company.title}</CompanyTitle>
+          </CompanyCard>
+        ))}
       </CompanyList>
     </>
-  );  
+  );
 };
 
 export default Company;

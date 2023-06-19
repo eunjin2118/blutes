@@ -273,7 +273,12 @@ const axios = require('axios');
 const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
 
 axios
-  .get(apiUrl)
+  .get(apiUrl), {
+    params: {
+      key: 'WNLJ25LTIEJLVSONBHK0S2VR1HJ',
+      target: 'EMPLOYMENT',
+    }
+  }
   .then(response => {
     const data = response.data;
     // 데이터 처리 로직 작성
