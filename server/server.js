@@ -267,6 +267,20 @@ app.post('/updateLikes/:postId', (req, res) => {
   });
 });
 
+const axios = require('axios');
+
+const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
+
+axios
+  .get(apiUrl)
+  .then(response => {
+    const data = response.data;
+    // 데이터 처리 로직 작성
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('API 요청 오류:', error);
+  });
 
 
 app.listen(5000, ()=>{
