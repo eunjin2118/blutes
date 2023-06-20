@@ -305,32 +305,55 @@ app.post('/updateLikes/:postId', (req, res) => {
 
 // 외부 api연동
 const axios = require('axios');
+const { parseString } = require('xml2js');
 
 app.get("/job_info", (req, res) => {
   const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
   axios
-  .get(apiUrl, {
-    params: {
-      authKey: 'WNLJ25LTIEJLVSONBHK0S2VR1HJ',
-      target: 'EMPLOYMENT',
-      callTp: "L",
-      returnType: "xml",
-      startPage: 1,
-      display: 1000
+    .get(apiUrl, {
+      params: {
+        authKey: 'WNLJ25LTIEJLVSONBHK0S2VR1HJ',
+        target: 'EMPLOYMENT',
+        callTp: "L",
+        returnType: "xml",
+        startPage: 1,
+        display: 1000
+      }
+    })
+    .then(response => {
+      const xmlData = response.data;
+      parseXmlToJson(xmlData, (err, jsonData) => {
+        if (err) {
+          console.error('XML to JSON 변환 오류:', err);
+          res.send("<h1>error</h1>");
+          return;
+        }
+        console.log(jsonData);
+        res.json(jsonData);
+      });
+    })
+    .catch(error => {
+      console.error('API 요청 오류:', error);
+      res.send("<h1>error</h1>")
+    });
+});
+
+// XML 데이터를 JSON으로 변환하는 함수
+function parseXmlToJson(xmlData, callback) {
+  parseString(xmlData, { explicitArray: false }, (err, result) => {
+    if (err) {
+      callback(err);
+      return;
     }
-  })
-  .then(response => {
-    const data = response.data;
-    // 데이터 처리 로직 작성
-    console.log(data);
-    res.header("Content-Type", "application/xml");
-    res.send(data);
-  })
-  .catch(error => {
-    console.error('API 요청 오류:', error);
-    res.send("<h1>error</h1>")
+    try {
+      const jsonData = result;
+      callback(null, jsonData);
+    } catch (err) {
+      callback(err);
+    }
   });
-})
+}
+
 
 
 
