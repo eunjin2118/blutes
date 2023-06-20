@@ -220,6 +220,12 @@ const CommunityPage = () => {
         localStorage.setItem('visitorCount', 1);
       }
     };
+    
+    // 서버 재실행 시 localStorage 초기화
+    // window.addEventListener('beforeunload', () => {
+    //   localStorage.clear();
+    // });
+    
 
     fetchPosts();
     getTodayDate();
