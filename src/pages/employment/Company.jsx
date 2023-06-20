@@ -111,7 +111,7 @@ const Company = () => {
       try {
         const response = await axios.get(apiUrl);
         const data = response.data;
-        setCompanies(data);
+        setCompanies(data.wantedRoot.wanted);
       } catch (error) {
         console.error('API 요청 오류:', error);
       }
@@ -212,18 +212,17 @@ const Company = () => {
         {renderOptions()}
       </AppWrapper>
       <CompanyList>
-        <CompanyCard>
-          <CompanyName>회사 이름 1</CompanyName>
-          <CompanyTitle>제목 1</CompanyTitle>
-        </CompanyCard>
-        <CompanyCard>
-          <CompanyName>회사 이름 2</CompanyName>
-          <CompanyTitle>제목 2</CompanyTitle>
-        </CompanyCard>
-        <CompanyCard>
-          <CompanyName>회사 이름 3</CompanyName>
-          <CompanyTitle>제목 3</CompanyTitle>
-        </CompanyCard>
+        {
+          
+          companies && companies.map(c => {
+            return (
+              <CompanyCard>
+                <CompanyName>{ c.company }</CompanyName>
+              </CompanyCard>
+            )
+          })
+        }
+      
       </CompanyList>
     </>
   );  
