@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const dotenv = require("dotenv");
+const { faClipboardList } = require('@fortawesome/free-solid-svg-icons');
 
 
 const salt = 10;
@@ -36,6 +37,27 @@ db.connect((err)=>{
     }
 });
 
+const verifyUser = (req, res ,next) => {
+  const token = req.cookies.token;
+  if(!token){
+    return res.json({Error : "You are not authenticated"});
+  } else {
+    // 토큰 만료시간
+    jwt.verify(token, "jwt-secret-key", (err, decoded)=>{
+      if(err){
+        return res.json({Error : "Token is not okey"});
+      } else {
+        
+        req.name = decoded.name;
+        next();
+      }
+    })
+  }
+}
+
+app.get('/auth', verifyUser, (req, res) => {
+  return res.json({Status: "Success"});
+})
 
 // 회원가입
 app.post('/signup', (req, res) => {
@@ -58,7 +80,7 @@ app.post('/signup', (req, res) => {
 
 // 로그인
 app.post('/login', (req, res) => {
-    const sql = "SELECT email, password FROM login WHERE email=?";
+    const sql = "SELECT name, email, password FROM login WHERE email=?";
     db.query(sql, req.body.email, (err, data) => {
         console.log(data);
         if(err) return res.json({Error: "Login error in server"});
@@ -69,7 +91,7 @@ app.post('/login', (req, res) => {
                     const name = data[0].name;
                     const token = jwt.sign({name}, "jwt-secret-key", {expiresIn: '1d'});
                     res.cookie('token', token);
-                    return res.json({Status : "Success"});
+                    return res.json({Status : "Success", name : name});
                 } else {
                     return res.json({Error: "Password not matched"});
                 }

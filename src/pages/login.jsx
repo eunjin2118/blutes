@@ -85,6 +85,8 @@ const Login = () => {
     password: '',
   });
 
+  const [user, setUser] = useState("");
+
   const handleInput = (event) => {
       setValues(prev => ({...prev, [event.target.name] : [event.target.value]}))
   };
@@ -96,7 +98,8 @@ const Login = () => {
       axios.post('login', values)
       .then(res => {
           if(res.data.Status === "Success"){
-              navigate('/main');
+            console.log(res.data);
+            navigate('/main', {state : {value : res.data.name}});
           } else{
               alert(res.data.Error);
           }

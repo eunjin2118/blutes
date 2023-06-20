@@ -4,6 +4,8 @@ import img1 from "../img/company.jpg";
 import img2 from "../img/company2.jpg";
 import img3 from "../img/company3.jpg";
 import Header from "./Header.js";
+import axios from "axios";
+import { useLocation } from "react-router-dom/dist/umd/react-router-dom.development";
 
 function App() {
   const [isToggled, setIsToggled] = useState(false);
@@ -30,10 +32,25 @@ function App() {
     overflow: hidden;
   `;
 
+  const location = useLocation();
+  const name = location.state.value;
+  console.log(name);
+
   const Slideshow = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const images = [img1, img2, img3];
     const interval = 3000;
+
+    useEffect(()=>{
+      const userData = async () => {
+        try{
+          const res = await axios.get("auth");
+          console.log(res);
+        } catch (err){console.log(err)}
+      }
+      userData();
+    }, [])
+
 
     useEffect(() => {
       const intervalId = setInterval(() => {
