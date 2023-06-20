@@ -10,6 +10,7 @@ import WordList from './pages/dictionary/WordList.jsx';
 import CommunityDetailPage from './pages/community/CommunityDetail';
 import WordQuizPage from './pages/dictionary/Quiz';
 import EmloymentPage  from './pages/employment/Company';
+import CompanyLifePage from './pages/companyLife/CompanyLife';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route exact path='/wordlist' element={<WordList/>}/>
           <Route exact path='/wordquiz' element={<WordQuizPage />}/>
           <Route exact path='/employment' element={<EmloymentPage/>}/>
+          <Route exact path='/companylife' element={<CompanyLifePage />}/>
         </Routes>
       </Router>
     </div>
