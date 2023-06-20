@@ -135,7 +135,7 @@ const WordList = () => {
       </SearchContainer>
       <hr />
       <TopContainer>
-        <MyWords>나의 단어장</MyWords>
+        <MyWords>단어장</MyWords>
         <Buttons>
           <Addword className='AddWord' onClick={handlePostButtonClick}>단어추가</Addword>
           <StartQuiz className='StartQuiz' onClick={handleStartButtonClick}>퀴즈보기</StartQuiz>
