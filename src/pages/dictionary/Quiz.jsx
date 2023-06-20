@@ -20,8 +20,8 @@ const QuizContainer = styled.div`
 `;
 
 const Word = styled.h1`
-  font-size: 24px;
-  margin-bottom: 10px;
+  font-size: 40px;
+  margin-bottom: 5px;
 `;
 
 const ButtonContainer = styled.div`
@@ -34,10 +34,10 @@ const ButtonContainer = styled.div`
 const Button = styled.button`
   cursor: pointer;
   padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 40px;
-  width: 500px;
-  height: 80px;
+  font-size: 20px;
+  border-radius: 50px;
+  width: 600px;
+  height: 90px;
   border: 2px solid #071DA1;
   background-color: white;
   margin-top: 5%;
@@ -144,7 +144,18 @@ const QuizPage = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get('/quiz');
-      const data = response.data.slice(0, 10);
+      const dataLength = response.data.length;
+      const randomIndices = [];
+      const dataCount = 10;
+
+      while (randomIndices.length < dataCount) {
+        const randomIndex = Math.floor(Math.random() * dataLength);
+        if (!randomIndices.includes(randomIndex)) {
+          randomIndices.push(randomIndex);
+        }
+      }
+
+      const data = randomIndices.map((index) => response.data[index]);
       const quizzesData = data.map((item) => ({
         word: item.word,
         meanings: [item.meaning1, item.meaning2, item.meaning3],
@@ -267,7 +278,7 @@ const QuizPage = () => {
                 {meaning}
               </Button>
             ))}
-            <div style={{ textAlign: 'center', margin: '5%', color: '#071DA1', fontWeight: 'bold' }}>
+            <div style={{fontSize:'22px', textAlign: 'center', margin: '7%', color: '#071DA1', fontWeight: 'bold' }}>
               {currentQuiz + 1} / {quizzes.length}
             </div>
           </ButtonContainer>
