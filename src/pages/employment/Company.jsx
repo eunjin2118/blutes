@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import Header from '../Header';
 
 const categories = [
   { id: 1, name: '학력' },
@@ -16,7 +17,7 @@ const CompanyList = styled.div`
 `;
 
 const CompanyCard = styled.div`
-  width: calc(20% - 20px);
+  width: auto;
   height: 20vh;
   margin-bottom: 20px;
   padding: 10px;
@@ -77,7 +78,7 @@ const OptionLabel = styled.label`
 const AppWrapper = styled.div`
   max-width: 800px;
   margin: 0 auto;
-  margin-top: 10%;
+  margin-top: 5%;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -94,13 +95,15 @@ const Title = styled.h1`
 
 const CompanyCardContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px; /* 변경된 값 */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
   max-width: 800px;
   width: 100%;
 `;
 
 const Company = () => {
+  const [isToggled, setIsToggled] = useState(false);
+  const [userToggled, setUserToggled] = useState(false);
   const [activeCategories, setActiveCategories] = useState([]);
   const [companies, setCompanies] = useState([]); // Added companies state
 
@@ -196,6 +199,12 @@ const Company = () => {
 
   return (
     <>
+     <Header
+        isToggled={isToggled}
+        userToggled={userToggled}
+        setIsToggled={setIsToggled}
+        setUserToggled={setUserToggled}
+      />
       <AppWrapper>
         <Title>채용정보 카테고리</Title>
         <CategoryWrapper>
@@ -212,19 +221,15 @@ const Company = () => {
         {renderOptions()}
       </AppWrapper>
       <CompanyList>
-        {
-          
-          companies && companies.map(c => {
-            return (
-              <CompanyCard>
-                <CompanyName>{ c.company }</CompanyName>
-                {c.career}
-                {c.minEdubg}
-              </CompanyCard>
-            )
-          })
-        }
-      
+        <CompanyCardContainer>
+          {companies.map((c, index) => (
+            <CompanyCard key={index}>
+              <CompanyName>{c.company}</CompanyName>
+              <CompanyTitle>{c.career}</CompanyTitle>
+              <CompanyTitle>{c.minEdubg}</CompanyTitle>
+            </CompanyCard>
+          ))}
+        </CompanyCardContainer>
       </CompanyList>
     </>
   );  
