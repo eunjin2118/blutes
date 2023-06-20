@@ -180,6 +180,20 @@ app.get('/posts/:id', (req, res) => {
   });
 });
 
+// 게시물 좋아요 누르면 유저아이디, 게시물아이디 디비에 저장
+app.post('/posts/:id/like', verifyUser, (req, res) => {
+  const postId = req.params.postId;
+  const userId = req.userId; // 사용자의 고유 ID
+  // 좋아요 정보를 중간 테이블에 저장
+  const sql = 'INSERT INTO user_likes (user_id, post_id) VALUES (?, ?)';
+  db.query(sql, [userId, postId], (err, result) => {
+    if (err) {
+      return res.json({ Error: 'Failed to add like' });
+    }
+    return res.json({ Status: 'Success' });
+  });
+});
+
 // 단어장
 app.post('/addworld', (req, res) => {
   const sql = "INSERT INTO word (`word`, `meaning`, `sentence`, `date`) VALUES (?, ?, ?, ?)";
@@ -292,23 +306,23 @@ app.post('/updateLikes/:postId', (req, res) => {
 // 외부 api연동
 const axios = require('axios');
 
-const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
+// const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
 
-axios
-  .get(apiUrl), {
-    params: {
-      key: 'WNLJ25LTIEJLVSONBHK0S2VR1HJ',
-      target: 'EMPLOYMENT',
-    }
-  }
-  .then(response => {
-    const data = response.data;
-    // 데이터 처리 로직 작성
-    console.log(data);
-  })
-  .catch(error => {
-    console.error('API 요청 오류:', error);
-  });
+// axios
+//   .get(apiUrl), {
+//     params: {
+//       key: 'WNLJ25LTIEJLVSONBHK0S2VR1HJ',
+//       target: 'EMPLOYMENT',
+//     }
+//   }
+//   .then(response => {
+//     const data = response.data;
+//     // 데이터 처리 로직 작성
+//     console.log(data);
+//   })
+//   .catch(error => {
+//     console.error('API 요청 오류:', error);
+//   });
 
 
 app.listen(5000, ()=>{
