@@ -61,7 +61,7 @@ const TextArea = styled.textarea`
 
 const SubmitButton = styled.input`
   padding: 12px;
-  background-color: #4CAF50;
+  background-color: #071DA1;
   color: white;
   border: none;
   border-radius: 4px;
