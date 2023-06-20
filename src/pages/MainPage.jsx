@@ -43,15 +43,15 @@ function App() {
     const images = [img1, img2, img3, img4, img5];
     const interval = 3000;
 
-    // useEffect(()=>{
-    //   const userData = async () => {
-    //     try{
-    //       const res = await axios.get("auth");
-    //       console.log(res);
-    //     } catch (err){console.log(err)}
-    //   }
-    //   userData();
-    // }, [])
+    useEffect(()=>{
+      const userData = async () => {
+        try{
+          const res = await axios.get("auth");
+          console.log(res);
+        } catch (err){console.log(err)}
+      }
+      userData();
+    }, [])
 
 
     useEffect(() => {

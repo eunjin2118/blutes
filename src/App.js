@@ -19,9 +19,9 @@ function App() {
     <div className='App'>
       <Router>
         <Routes>
-          <Route exact path='/' element={<MainPage/>}/>
-          {/* <Route exact path='/' element={<LoginPage/>}/> */}
-          {/* <Route exact path='/signup' element={<SignupPage/>}/> */}
+          <Route exact path='/main' element={<MainPage/>}/>
+          <Route exact path='/' element={<LoginPage/>}/>
+          <Route exact path='/signup' element={<SignupPage/>}/>
           <Route exact path='/dictionary' element={<DictionaryPage/>}/>
           <Route exact path='/community' element={<CommunityPage/>}/>
           <Route exact path='/post' element={<PostPage/>}/>
