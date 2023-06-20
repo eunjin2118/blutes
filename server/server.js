@@ -307,27 +307,24 @@ app.post('/updateLikes/:postId', (req, res) => {
 const axios = require('axios');
 const { parseString } = require('xml2js');
 
-<<<<<<< HEAD
-// const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
+const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
 
-// axios
-//   .get(apiUrl), {
-//     params: {
-//       key: 'WNLJ25LTIEJLVSONBHK0S2VR1HJ',
-//       target: 'EMPLOYMENT',
-//     }
-//   }
-//   .then(response => {
-//     const data = response.data;
-//     // 데이터 처리 로직 작성
-//     console.log(data);
-//   })
-//   .catch(error => {
-//     console.error('API 요청 오류:', error);
-//   });
+axios
+  .get(apiUrl), {
+    params: {
+      key: 'WNLJ25LTIEJLVSONBHK0S2VR1HJ',
+      target: 'EMPLOYMENT',
+    }
+  }
+  .then(response => {
+    const data = response.data;
+    // 데이터 처리 로직 작성
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('API 요청 오류:', error);
+  });
 
-=======
->>>>>>> b49c6dacced1ed00519ed880ea2ff6dd97f09b00
 app.get("/job_info", (req, res) => {
   const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
   axios
@@ -374,13 +371,6 @@ function parseXmlToJson(xmlData, callback) {
     }
   });
 }
-
-
-<<<<<<< HEAD
-
-=======
->>>>>>> b49c6dacced1ed00519ed880ea2ff6dd97f09b00
-
 
 app.listen(5000, ()=>{
     console.log("Connectd to server");
