@@ -316,7 +316,7 @@ const CommunityPage = () => {
         </PageContainer>
         <TodayContainer>
           <Todate className='Todate'>{todayDate}</Todate>
-          <TodayVisitor className='TodayVisitor'>오늘의 방문자</TodayVisitor>
+          <TodayVisitor className='TodayVisitor'>누적 방문자</TodayVisitor>
           <VisitorCount className='VisitorCount'>{visitorCount}명</VisitorCount>
           <TodayComment className='TodayComment'>총 게시물 수</TodayComment>
           <CommenterCount className='CommenterCount'>{posts.length}</CommenterCount>
