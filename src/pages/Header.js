@@ -5,7 +5,9 @@ import { faBars, faUser, faTimes } from "@fortawesome/free-solid-svg-icons";
 import logoimg from "../img/blutes.png";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
-const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
+const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled, setUserName }) => {
+  
+
   const HeaderContainer = styled.div(({isToggled, userToggled})=>`
   @font-face {
     font-family: 'TitleFont';
@@ -56,6 +58,7 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
     font-family: 'TitleFont';
     padding: 0 1rem;
     color: black;
+    font-size : 20px;
   }
 
   li:hover {
@@ -93,7 +96,7 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
 
     .header__menulist li,
     .header__right li {
-      margin: 1rem 0;
+      margin: 1rem ;
       padding: 0;
     }
 
@@ -147,7 +150,7 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
   }`
   )
   const navigate = useNavigate();
-  const navigateToCommunity = () => {navigate('/community');};
+  const navigateToCommunity = () => {navigate('/community',{state : {name : setUserName}});};
   const navigateToDictionary = () => {navigate('/dictionary');};
   const navigateToEmployment = () => {navigate('/employment')};
   const navigateToCompanyLife = () => {navigate('/companylife');};
@@ -185,6 +188,7 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
         <li onClick={navigateToDictionary}>약어사전·퀴즈</li>
         <li onClick={navigateToEmployment}>채용정보</li>
         <li onClick={navigateToCompanyLife}>회사라이프</li>
+        <li>{setUserName}님 환영합니다</li>
         {/* <li>면접질문</li> */}
       </ul>
 

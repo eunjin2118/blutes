@@ -12,6 +12,7 @@ import { useLocation } from "react-router-dom/dist/umd/react-router-dom.developm
 function App() {
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
+  const [userName, setUserName] = useState('');
 
   const Body = styled.div``;
 
@@ -80,6 +81,7 @@ function App() {
         userToggled={userToggled}
         setIsToggled={setIsToggled}
         setUserToggled={setUserToggled}
+        setUserName={name}
       />
       <Slideshow />
     </Body>
