@@ -6,128 +6,131 @@ import logoimg from "../img/blutes.png";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
 const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
-  const HeaderContainer = styled.div`
-    max-width: 100%;
-    margin: 0 auto;
+  const HeaderContainer = styled.div(({isToggled, userToggled})=>`
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+  background-color: white;
+  box-shadow: 1px 1px 2px gray;
+
+  .logo-img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .logo {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    margin: 0.5rem 1rem;
+    font-size: 2rem;
+  }
+
+  .header__menulist {
+    list-style: none;
+    display: flex;
+  }
+
+  .header__left {
+    display: flex;
+  }
+
+  .header__right {
+    list-style: none;
+    display: flex;
+  }
+
+  .header__right div {
+    margin: 0 1rem;
+  }
+
+  li {
+    padding: 0 1rem;
     color: black;
-    background-color: white;
-    box-shadow: 1px 1px 2px gray;
+  }
 
-    .logo-img {
-      width: 60px;
-      height: 60px;
-    }
+  .toggle {
+    display: none;
+    font-size: 1.5rem;
+    padding: 1rem 1rem;
+  }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      margin: 0 2rem;
-      font-size: 2rem;
+  .user {
+    display: none;
+    font-size: 1.5rem;
+    padding: 1rem 1rem;
+  }
+
+  @media screen and (max-width: 1290px) {
+    flex-wrap: wrap;
+
+    .header__right {
+      display: ${(props) => (props.userToggled ? "flex" : "none")};
+      flex-direction: column;
+      width: 100%;
+      background-color: white;
     }
 
     .header__menulist {
-      list-style: none;
-      display: flex;
+      display: ${(props) => (props.isToggled ? "flex" : "none")};
+      flex-direction: column;
+      width: 100%;
+      background-color: white;
     }
 
-    .header__left {
-      display: flex;
-    }
-
-    .header__right {
-      list-style: none;
-      display: flex;
-    }
-
-    .header__right div {
-      margin: 0 1rem;
-    }
-
-    li {
-      padding: 0 1rem;
-      color: black;
+    .header__menulist li,
+    .header__right li {
+      margin: 1rem 0;
+      padding: 0;
     }
 
     .toggle {
-      display: none;
-      font-size: 1.5rem;
-      padding: 1rem 1rem;
+      display: block;
     }
 
     .user {
-      display: none;
-      font-size: 1.5rem;
-      padding: 1rem 1rem;
+      display: block;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    flex-wrap: wrap;
+
+    .header__right {
+      display: ${(props) => (props.userToggled ? "flex" : "none")};
+      flex-direction: column;
+      width: 100%;
+      background-color: white;
     }
 
-    @media screen and (max-width: 1290px) {
-      flex-wrap: wrap;
-
-      .header__right {
-        display: ${(props) => (props.userToggled ? "flex" : "none")};
-        flex-direction: column;
-        width: 100%;
-        background-color: white;
-      }
-
-      .header__menulist {
-        display: ${(props) => (props.isToggled ? "flex" : "none")};
-        flex-direction: column;
-        width: 100%;
-        background-color: white;
-      }
-
-      .header__menulist li,
-      .header__right li {
-        margin: 1rem 0;
-        padding: 0;
-      }
-
-      .toggle {
-        display: block;
-      }
-
-      .user {
-        display: block;
-      }
+    .header__menulist {
+      display: ${(props) => (props.isToggled ? "flex" : "none")};
+      flex-direction: column;
+      width: 100%;
+      background-color: white;
     }
 
-    @media screen and (max-width: 768px) {
-      flex-wrap: wrap;
-
-      .header__right {
-        display: ${(props) => (props.userToggled ? "flex" : "none")};
-        flex-direction: column;
-        width: 100%;
-        background-color: white;
-      }
-
-      .header__menulist {
-        display: ${(props) => (props.isToggled ? "flex" : "none")};
-        flex-direction: column;
-        width: 100%;
-        background-color: white;
-      }
-
-      .header__menulist li,
-      .header__right li {
-        margin: 1rem 0;
-        padding: 0;
-      }
-
-      .toggle {
-        display: block;
-      }
-
-      .user {
-        display: block;
-      }
+    .header__menulist li:hover {
+      color: #071DA1;
     }
-  `;
 
+    .header__menulist li,
+    .header__right li {
+      margin: 1rem 0;
+      padding: 0;
+    }
+
+    .toggle {
+      display: block;
+    }
+
+    .user {
+      display: block;
+    }
+  }`
+  )
   const navigate = useNavigate();
   const navigateToCommunity = () => {navigate('/community');};
   const navigateToDictionary = () => {navigate('/dictionary');};
