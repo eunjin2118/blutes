@@ -109,12 +109,12 @@ const Login = () => {
 
   return (
     <>
-      <Header
+      {/* <Header
         isToggled={isToggled}
         userToggled={userToggled}
         setIsToggled={setIsToggled}
         setUserToggled={setUserToggled}
-      />
+      /> */}
       <Container>
         <ImgBox>
           <BackgroundImg />

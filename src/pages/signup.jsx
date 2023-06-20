@@ -36,12 +36,6 @@ function Signup() {
 
   return (
     <>
-    <Header
-      isToggled={isToggled}
-      userToggled={userToggled}
-      setIsToggled={setIsToggled}
-      setUserToggled={setUserToggled}
-    />
     <div
       className="container"
       style={{
