@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { RiHeart2Fill} from 'react-icons/ri';
 import { FaArrowLeft } from 'react-icons/fa';
 import Header from "../Header.js";
+import ChatImg from '../../img/chat.png';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,7 +21,7 @@ const SearchInput = styled.input`
   width: 100%;
   border: 1px solid #bbb;
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 15px 20px;
   font-size: 14px;
   border-radius: 20px;
 `;
@@ -52,29 +53,28 @@ const TitleWrapper = styled.div`
   align-items: center;
 `;
 
-const Title = styled.h1`
+const Title = styled.h2`
   margin-left: 20px;
   margin-top: 2%;
   flex-grow: 1;
+  color: #212529;
+  padding-top: 10px;
+  padding-left: 10px;
 `;
 
 const Content = styled.p`
   margin-left: 30px;
   text-align: left;
   margin-top: 10px;
+  padding-left: 10px;
+  color: #495057;
 `;
 
-const IconWrapper = styled.div`
+const ImgWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-top: 8px; /* 아이콘과 조회수 간격 조정 */
   align-self: flex-end; /* 아이콘을 오른쪽으로 정렬 */
-`;
-
-const HeartIcon = styled(RiHeart2Fill)`
-  margin-right: 2%;
-  width: 30px;
-  height: 30px;
 `;
 
 const PageContainer = styled.div`
@@ -85,7 +85,7 @@ const PageContainer = styled.div`
   width: 600px;
   height: auto;
   border: 1px solid #E0E0E0;
-  padding: 10px;
+  padding: 30px 30px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
 `;
 
@@ -117,8 +117,11 @@ const CommentInput = styled.input`
 
 const CommentButton = styled.button`
   height: 35px;
-  border-radius: 2px;
+  border-radius: 4px;
   cursor: pointer;
+  color: white;
+  border: none;
+  background-color: #071DA1;
 `;
 
 const Comment = styled.div`
@@ -245,9 +248,9 @@ const CommunityDetail = (props) => {
                 dangerouslySetInnerHTML={{ __html: post.content }}
               ></Content>
               <ViewWrapper>
-                  <IconWrapper>
-                    <HeartIcon />
-                  </IconWrapper>
+                  <ImgWrapper>
+                    <img style={{width: '150px', height: '100px'}} src={ChatImg} alt="chat" /> 
+                  </ImgWrapper>
                 </ViewWrapper>
               <hr />
               <CommentWrapper>

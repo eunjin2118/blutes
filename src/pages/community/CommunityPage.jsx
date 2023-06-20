@@ -17,7 +17,7 @@ const SearchInput = styled.input`
   width: 100%;
   border: 1px solid #bbb;
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 15px 20px;
   font-size: 14px;
   border-radius: 20px;
 `;
@@ -49,24 +49,28 @@ const TitleWrapper = styled.div`
   align-items: center;
 `;
 
-const Title = styled.h1`
+const Title = styled.h2`
   margin-top: -5%;
   flex-grow: 1;
+  color: #212529;
 `;
 
 const WriteDate = styled.p`
   margin-top: 0.5%;
   text-align: right;
+  color: #212529;
 `;
 
 const Content = styled.p`
   text-align: left;
   margin-top: 10px;
+  color: #495057;
 `;
 
 const View = styled.p`
   align-self: flex-start;
   margin-bottom: 0;
+  color: #212529;
 `;
 
 const IconWrapper = styled.div`
@@ -102,7 +106,7 @@ const PageContainer = styled.div`
   border: 1px solid #E0E0E0;
   margin-left: auto;
   margin-right: 10px; /* Updated margin-right */
-  padding: 10px;
+  padding: 30px 30px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
 `;
 
