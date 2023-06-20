@@ -292,7 +292,6 @@ app.post('/updateLikes/:postId', (req, res) => {
 // 외부 api연동
 const axios = require('axios');
 
-
 app.get("/job_info", (req, res) => {
   const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
   axios
@@ -301,7 +300,9 @@ app.get("/job_info", (req, res) => {
       authKey: 'WNLJ25LTIEJLVSONBHK0S2VR1HJ',
       target: 'EMPLOYMENT',
       callTp: "L",
-      returnType: "xml"
+      returnType: "xml",
+      startPage: 1,
+      display: 1000
     }
   })
   .then(response => {
