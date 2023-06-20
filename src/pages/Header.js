@@ -7,6 +7,11 @@ import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.developm
 
 const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
   const HeaderContainer = styled.div(({isToggled, userToggled})=>`
+  @font-face {
+    font-family: 'TitleFont';
+    src: url('../fonts/TitleFont.ttf') format('truetype');
+  }
+
   max-width: 100%;
   margin: 0 auto;
   display: flex;
@@ -47,8 +52,14 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
   }
 
   li {
+    /* 폰트 적용 */
+    font-family: 'TitleFont';
     padding: 0 1rem;
     color: black;
+  }
+
+  li:hover {
+    color: #071DA1;
   }
 
   .toggle {
@@ -84,6 +95,10 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
     .header__right li {
       margin: 1rem 0;
       padding: 0;
+    }
+
+    .header__menulist li:hover {
+      color: #071DA1;
     }
 
     .toggle {

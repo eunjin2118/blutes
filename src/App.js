@@ -13,11 +13,20 @@ import EmploymentPage  from './pages/employment/Company';
 import Main from './pages/dictionary/Main';
 import CompanyLifePage from './pages/companyLife/CompanyLife';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { createGlobalStyle } from 'styled-components';
+
+const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: 'TitleFont';
+    src: url('../fonts/TitleFont.ttf') format('truetype');
+  }
+`;
 
 function App() {
   return (
     <div className='App'>
       <Router>
+        <GlobalStyle/>
         <Routes>
           <Route exact path='/main' element={<MainPage/>}/>
           <Route exact path='/' element={<LoginPage/>}/>

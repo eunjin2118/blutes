@@ -10,7 +10,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   padding: 20px;
-  font-family: Arial, sans-serif;
   background-color: #f2f2f2;
   height: 100vh;
 `;
@@ -19,6 +18,7 @@ const Title = styled.h1`
   margin-bottom: 20px;
   color: #333;
   text-align: center;
+  font-family: 'TitleFont';
 `;
 
 const Form = styled.form`
