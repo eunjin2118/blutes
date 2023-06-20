@@ -5,7 +5,6 @@ import { FaArrowLeft } from 'react-icons/fa';
 import Header from "../Header.js";
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
 
 // 스타일드 컴포넌트 정의 ...
 
