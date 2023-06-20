@@ -143,16 +143,19 @@ app.post('/add', (req, res) => {
 
 // 게시판 조회
 app.get('/getPosts', (req, res) => {
-  var selectSql = "SELECT id, title, DATE_FORMAT(post_date, '%Y-%m-%d') AS post_date, content, views, likes FROM board"; // post_date를 YYYY-MM-DD 형식으로 가져옴
+  var selectSql = "SELECT id, title, DATE_FORMAT(post_date, '%Y-%m-%d') AS post_date, content, views, likes FROM board";
+  
   db.query(selectSql, (err, rows) => {
     if (err) {
       console.log(err);
       res.send('데이터를 가져오는 중에 오류가 발생했습니다.');
     } else {
       console.log('데이터 조회 완료');
+      res.json({ result: rows });
     }
   });
 });
+
 
 //게시물 1개 조회
 app.get('/posts/:id', (req, res) => {
@@ -291,73 +294,55 @@ app.post('/updateLikes/:postId', (req, res) => {
 });
 
 // 외부 api연동
-// const axios = require('axios');
-// const { parseString } = require('xml2js');
+const axios = require('axios');
+const { parseString } = require('xml2js');
 
-// const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
+app.get("/job_info", (req, res) => {
+  const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
+  axios
+    .get(apiUrl, {
+      params: {
+        authKey: 'WNLJ25LTIEJLVSONBHK0S2VR1HJ',
+        target: 'EMPLOYMENT',
+        callTp: "L",
+        returnType: "xml",
+        startPage: 1,
+        display: 1000
+      }
+    })
+    .then(response => {
+      const xmlData = response.data;
+      parseXmlToJson(xmlData, (err, jsonData) => {
+        if (err) {
+          console.error('XML to JSON 변환 오류:', err);
+          res.send("<h1>error</h1>");
+          return;
+        }
+        console.log(jsonData);
+        res.json(jsonData);
+      });
+    })
+    .catch(error => {
+      console.error('API 요청 오류:', error);
+      res.send("<h1>error</h1>")
+    });
+});
 
-// axios
-//   .get(apiUrl), {
-//     params: {
-//       key: 'WNLJ25LTIEJLVSONBHK0S2VR1HJ',
-//       target: 'EMPLOYMENT',
-//     }
-//   }
-//   .then(response => {
-//     const data = response.data;
-//     // 데이터 처리 로직 작성
-//     console.log(data);
-//   })
-//   .catch(error => {
-//     console.error('API 요청 오류:', error);
-//   });
-
-// app.get("/job_info", (req, res) => {
-//   const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
-//   axios
-//     .get(apiUrl, {
-//       params: {
-//         authKey: 'WNLJ25LTIEJLVSONBHK0S2VR1HJ',
-//         target: 'EMPLOYMENT',
-//         callTp: "L",
-//         returnType: "xml",
-//         startPage: 1,
-//         display: 1000
-//       }
-//     })
-//     .then(response => {
-//       const xmlData = response.data;
-//       parseXmlToJson(xmlData, (err, jsonData) => {
-//         if (err) {
-//           console.error('XML to JSON 변환 오류:', err);
-//           res.send("<h1>error</h1>");
-//           return;
-//         }
-//         console.log(jsonData);
-//         res.json(jsonData);
-//       });
-//     })
-//     .catch(error => {
-//       console.error('API 요청 오류:', error);
-//       res.send("<h1>error</h1>")
-//     });
-// });
-
-// // XML 데이터를 JSON으로 변환하는 함수
-// function parseXmlToJson(xmlData, callback) {
-//   parseString(xmlData, { explicitArray: false }, (err, result) => {
-//     if (err) {
-//       callback(err);
-//       return;
-//     }
-//     try {
-//       const jsonData = result;
-//       callback(null, jsonData);
-//     } catch (err) {
-//       callback(err);
-//     }
-//   });
-// }
+// XML 데이터를 JSON으로 변환하는 함수
+function parseXmlToJson(xmlData, callback) {
+  parseString(xmlData, { explicitArray: false }, (err, result) => {
+    if (err) {
+      callback(err);
+      return;
+    }
+    try {
+      const jsonData = result;
+      callback(null, jsonData);
+    } catch (err) {
+      callback(err);
+    }
+  });
+}
 
 app.listen(5000, ()=>{
     console.log("Connectd to server");
