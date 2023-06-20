@@ -167,15 +167,15 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
         <li onClick={navigateToDictionary}>약어사전·퀴즈</li>
         <li onClick={navigateToEmployment}>채용정보</li>
         <li onClick={navigateToCompanyLife}>회사라이프</li>
-        <li>면접질문</li>
+        {/* <li>면접질문</li> */}
       </ul>
 
       {/* User 메뉴 리스트 */}
-      <ul className="header__right">
+      {/* <ul className="header__right">
         <li>
           <button>로그인</button>
         </li>
-      </ul>
+      </ul> */}
     </HeaderContainer>
   );
 };

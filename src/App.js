@@ -9,7 +9,8 @@ import PostPage from './pages/community/post';
 import WordList from './pages/dictionary/WordList.jsx';
 import CommunityDetailPage from './pages/community/CommunityDetail';
 import WordQuizPage from './pages/dictionary/Quiz';
-import EmloymentPage  from './pages/employment/Company';
+import EmploymentPage  from './pages/employment/Company';
+import Main from './pages/dictionary/Main';
 import CompanyLifePage from './pages/companyLife/CompanyLife';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -18,17 +19,18 @@ function App() {
     <div className='App'>
       <Router>
         <Routes>
-          <Route exact path='/main' element={<MainPage/>}/>
-          <Route exact path='/' element={<LoginPage/>}/>
-          <Route exact path='/signup' element={<SignupPage/>}/>
+          <Route exact path='/' element={<MainPage/>}/>
+          {/* <Route exact path='/' element={<LoginPage/>}/> */}
+          {/* <Route exact path='/signup' element={<SignupPage/>}/> */}
           <Route exact path='/dictionary' element={<DictionaryPage/>}/>
           <Route exact path='/community' element={<CommunityPage/>}/>
           <Route exact path='/post' element={<PostPage/>}/>
           <Route exact path='/detailcommunity/:postId' element={<CommunityDetailPage />}/>
           <Route exact path='/wordlist' element={<WordList/>}/>
           <Route exact path='/wordquiz' element={<WordQuizPage />}/>
-          <Route exact path='/employment' element={<EmloymentPage/>}/>
+          <Route exact path='/employment' element={<EmploymentPage/>}/>
           <Route exact path='/companylife' element={<CompanyLifePage />}/>
+          <Route exact path='/mmain' element = {<Main />}/>
         </Routes>
       </Router>
     </div>
