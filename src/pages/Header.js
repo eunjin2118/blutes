@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faUser, faTimes } from "@fortawesome/free-solid-svg-icons";
 import logoimg from "../img/blutes.png";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled, setUserName }) => {
   const userName = setUserName;
@@ -155,7 +156,13 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled, setUserN
   const navigateToEmployment = () => {navigate('/employment',{state : {value : userName}})};
   const navigateToCompanyLife = () => {navigate('/companylife',{state : {value : userName}});};
   const navigateToMain = () => {navigate('/main', {state : {value : userName}})};
-  console.log(userName);
+
+  const handleLogOut = () => {
+    axios.get('/logout')
+    .then(res =>{
+      navigate('/');
+    }) .catch(err => console.log(err));
+  }
   return (
     <HeaderContainer isToggled={isToggled} userToggled={userToggled}>
       {/* 햄버거 버튼(bar) */}
@@ -191,7 +198,7 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled, setUserN
         <li onClick={navigateToCompanyLife}>회사라이프</li>
         <li>{userName}님 환영합니다</li>
         <li>
-          <button>로그아웃</button>
+          <button onClick={handleLogOut}>로그아웃</button>
         </li>
         {/* <li>면접질문</li> */}
       </ul>

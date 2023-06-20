@@ -102,6 +102,11 @@ app.post('/login', (req, res) => {
     })
 })
 
+app.get('/logout', (req, res)=>{
+  res.clearCookie('token');
+  return res.json({Status:"Success"});
+})
+
 // 게시판 글 작성한 데이터 전송
 app.post('/add', (req, res) => {
   console.log('저장완료');
@@ -296,6 +301,7 @@ app.post('/updateLikes/:postId', (req, res) => {
 // 외부 api연동
 const axios = require('axios');
 const { parseString } = require('xml2js');
+const { json } = require('react-router-dom/dist/umd/react-router-dom.development');
 
 app.get("/job_info", (req, res) => {
   const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
