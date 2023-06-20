@@ -150,7 +150,7 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled, setUserN
   }`
   )
   const navigate = useNavigate();
-  const navigateToCommunity = () => {navigate('/community',{state : {name : setUserName}});};
+  const navigateToCommunity = () => {navigate('/community',{state : {value : setUserName}});};
   const navigateToDictionary = () => {navigate('/dictionary');};
   const navigateToEmployment = () => {navigate('/employment')};
   const navigateToCompanyLife = () => {navigate('/companylife');};

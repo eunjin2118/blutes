@@ -6,6 +6,7 @@ import Header from "../Header.js";
 import ChatImg from '../../img/chat.png';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom/dist/umd/react-router-dom.development.js';
 
 // 스타일드 컴포넌트 정의 ...
 
@@ -169,6 +170,9 @@ const CommunityDetail = (props) => {
     fetchPostAndComments();
   }, [postId]);
 
+  const location = useLocation();
+  const name = location.state.value;
+
   const handleCommentSubmit = async (event) => {
     event.preventDefault();
 
@@ -180,7 +184,7 @@ const CommunityDetail = (props) => {
         },
         body: JSON.stringify({
           comment: newComment,
-          nickname: 'User', // Replace 'User' with the actual nickname of the commenter
+          nickname: name // 로그인한 유저의 이름값
         }),
       });
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { RiHeart2Fill, RiChat1Line } from 'react-icons/ri';
 import Header from "../Header";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // 스타일드 컴포넌트 정의
 const SearchContainer = styled.div`
@@ -232,7 +232,7 @@ const CommunityPage = () => {
 
   const handleDetailIconClick = (postId) => {
     updateViews(postId);
-    navigate(`/detailcommunity/${postId}`);
+    navigate(`/detailcommunity/${postId}`,{state : {value : name}});
   };
 
   const handleSearchInputChange = (event) => {
@@ -263,6 +263,10 @@ const CommunityPage = () => {
     }
   };
   
+  
+  const location = useLocation();
+  const name = location.state.value;
+  console.log(name);
 
   return (
     <div>
