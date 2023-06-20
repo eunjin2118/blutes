@@ -227,7 +227,7 @@ const CommunityPage = () => {
   }, [searchInput]);
 
   const handlePostButtonClick = () => {
-    navigate('/post');
+    navigate('/post' ,{state : {value : name}});
   };
 
   const handleDetailIconClick = (postId) => {
@@ -246,7 +246,7 @@ const CommunityPage = () => {
       try {
         const response = await fetch(`/updateLikes/${postId}`, {
           method: 'POST'
-        });
+        },{state : {value : name}});
   
         if (response.ok) {
           setPosts((prevPosts) =>
@@ -275,6 +275,7 @@ const CommunityPage = () => {
       userToggled={userToggled}
       setIsToggled={setIsToggled}
       setUserToggled={setUserToggled}
+      setUserName={name}
       />
       <SearchContainer>
         <SearchInput

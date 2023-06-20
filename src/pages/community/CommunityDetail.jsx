@@ -232,6 +232,7 @@ const CommunityDetail = (props) => {
       userToggled={userToggled}
       setIsToggled={setIsToggled}
       setUserToggled={setUserToggled}
+      setUserName={name}
       />
       <SearchContainer>
         <SearchInput type="text" placeholder="검색어 입력" />

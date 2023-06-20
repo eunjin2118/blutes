@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Header from "../Header.js";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom/dist/umd/react-router-dom.development.js';
 
 const SearchContainer = styled.div`
   position: relative;
@@ -102,6 +103,9 @@ const WordList = () => {
   const [userToggled, setUserToggled] = useState(false);
   const navigate = useNavigate();
 
+  const location = useLocation();
+  const name = location.state.value;
+
   useEffect(()=>{
     axios.get('getWords')
     .then((response) =>{
@@ -113,12 +117,12 @@ const WordList = () => {
 
   // AddWordForm페이지로 이동하는 버튼
    const handlePostButtonClick = () => {
-     navigate('/dictionary'); // '/dictionary' 경로로 이동
+     navigate('/dictionary', { state: { value: name } }); // '/dictionary' 경로로 이동
    };
 
    // WordQuizPage페이지로 이동하는 버튼
    const handleStartButtonClick = () => {
-    navigate('/wordquiz'); // '/wordquiz' 경로로 이동
+    navigate('/wordquiz', { state: { value: name } }); // '/wordquiz' 경로로 이동
   };
 
   return (
@@ -128,6 +132,7 @@ const WordList = () => {
       userToggled={userToggled}
       setIsToggled={setIsToggled}
       setUserToggled={setUserToggled}
+      setUserName={name}
       />
       <SearchContainer>
         <SearchInput type="text" placeholder="검색어 입력" />

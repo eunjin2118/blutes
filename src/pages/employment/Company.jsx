@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Header from '../Header';
+import { useLocation } from 'react-router-dom';
 
 const categories = [
   { id: 1, name: '학력' },
@@ -106,6 +107,9 @@ const Company = () => {
   const [userToggled, setUserToggled] = useState(false);
   const [activeCategories, setActiveCategories] = useState([]);
   const [companies, setCompanies] = useState([]); // Added companies state
+  
+  const location = useLocation();
+  const name = location.state.value;
 
   useEffect(() => {
     const apiUrl = 'http://localhost:3000/job_info'; // Replace with your API URL
@@ -204,6 +208,7 @@ const Company = () => {
         userToggled={userToggled}
         setIsToggled={setIsToggled}
         setUserToggled={setUserToggled}
+        setUserName={name}
       />
       <AppWrapper>
         <Title>채용정보 카테고리</Title>

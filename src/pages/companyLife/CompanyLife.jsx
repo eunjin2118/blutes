@@ -9,6 +9,7 @@ import Slider from 'react-slick';
 import styled from 'styled-components';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useLocation } from 'react-router-dom/dist/umd/react-router-dom.development';
 
 const StyledSlider = styled(Slider)`
 
@@ -208,6 +209,9 @@ const CompanyLife = () => {
     img5,
   ];
 
+  const location = useLocation();
+  const name = location.state.value;
+
   const PrevArrow = (props) => (
     <button {...props} className="slick-prev">
       이전
@@ -237,6 +241,7 @@ const CompanyLife = () => {
         userToggled={userToggled}
         setIsToggled={setIsToggled}
         setUserToggled={setUserToggled}
+        setUserName={name}
       />
       <Container>
         <SliderContainer>

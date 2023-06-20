@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import Header from "../Header";
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom/dist/umd/react-router-dom.development';
 
 const Container = styled.div`
   display: flex;
@@ -137,6 +138,9 @@ const QuizPage = () => {
   const [userToggled, setUserToggled] = useState(false);
   const navigate = useNavigate();
 
+  const location = useLocation();
+  const name = location.state.value;
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -190,7 +194,7 @@ const QuizPage = () => {
   };
 
   const handleBtnOk = () => {
-    navigate('/wordlist');
+    navigate('/wordlist', {state : {value : name}});
   };
 
   const handleRetry = () => {
@@ -222,6 +226,7 @@ const QuizPage = () => {
         userToggled={userToggled}
         setIsToggled={setIsToggled}
         setUserToggled={setUserToggled}
+        setUserName={name}
       />
       <ResultContainer>
         <h2>점수: {score}점</h2>
@@ -258,6 +263,7 @@ const QuizPage = () => {
         userToggled={userToggled}
         setIsToggled={setIsToggled}
         setUserToggled={setUserToggled}
+        setUserName={name}
       />
       <Container>
         <QuizContainer>

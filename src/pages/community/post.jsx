@@ -4,7 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
 import Header from '../Header';
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -102,6 +102,10 @@ const POST = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
+  const location = useLocation();
+  const name = location.state.value;
+
+
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
@@ -120,7 +124,7 @@ const POST = () => {
       .then((res) => {
         console.log(res.data.Status);
         if (res) {
-          window.location.href = '/community';
+          navigate('/community', { state: { value: name } });
         } else {
           alert(res.data.Error);
         }
@@ -135,6 +139,7 @@ const POST = () => {
         userToggled={userToggled}
         setIsToggled={setIsToggled}
         setUserToggled={setUserToggled}
+        setUserName={name}
       />
       <Container>
         <FormWrapper>

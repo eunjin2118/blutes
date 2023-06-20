@@ -3,12 +3,11 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faUser, faTimes } from "@fortawesome/free-solid-svg-icons";
 import logoimg from "../img/blutes.png";
-import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled, setUserName }) => {
-  
-
-  const HeaderContainer = styled.div(({isToggled, userToggled})=>`
+  const userName = setUserName;
+  const HeaderContainer = styled.div(({isToggled, userToggled, setUserName})=>`
   @font-face {
     font-family: 'TitleFont';
     src: url('../fonts/TitleFont.ttf') format('truetype');
@@ -149,12 +148,14 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled, setUserN
     }
   }`
   )
-  const navigate = useNavigate();
-  const navigateToCommunity = () => {navigate('/community',{state : {value : setUserName}});};
-  const navigateToDictionary = () => {navigate('/dictionary');};
-  const navigateToEmployment = () => {navigate('/employment')};
-  const navigateToCompanyLife = () => {navigate('/companylife');};
 
+  const navigate = useNavigate();
+  const navigateToCommunity = () => {navigate('/community',{state : {value : userName}})};
+  const navigateToDictionary = () => {navigate('/dictionary',{state : {value : userName}});};
+  const navigateToEmployment = () => {navigate('/employment',{state : {value : userName}})};
+  const navigateToCompanyLife = () => {navigate('/companylife',{state : {value : userName}});};
+  const navigateToMain = () => {navigate('/main', {state : {value : userName}})};
+  console.log(userName);
   return (
     <HeaderContainer isToggled={isToggled} userToggled={userToggled}>
       {/* 햄버거 버튼(bar) */}
@@ -169,7 +170,7 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled, setUserN
 
       {/* Apple 로고 */}
       <div className="logo">
-        <img className="logo-img" src={logoimg} alt="logo" />
+        <img className="logo-img" src={logoimg} onClick={navigateToMain} alt="logo" />
       </div>
 
       {/* User 버튼 */}
@@ -188,16 +189,13 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled, setUserN
         <li onClick={navigateToDictionary}>약어사전·퀴즈</li>
         <li onClick={navigateToEmployment}>채용정보</li>
         <li onClick={navigateToCompanyLife}>회사라이프</li>
-        <li>{setUserName}님 환영합니다</li>
+        <li>{userName}님 환영합니다</li>
+        <li>
+          <button>로그아웃</button>
+        </li>
         {/* <li>면접질문</li> */}
       </ul>
 
-      {/* User 메뉴 리스트 */}
-      {/* <ul className="header__right">
-        <li>
-          <button>로그인</button>
-        </li>
-      </ul> */}
     </HeaderContainer>
   );
 };

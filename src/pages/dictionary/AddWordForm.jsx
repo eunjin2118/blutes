@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Header';
 import axios from "axios";
+import { useLocation } from 'react-router-dom/dist/umd/react-router-dom.development';
 
 const Container = styled.div`
   display: flex;
@@ -74,6 +75,9 @@ const AddWordForm = () => {
   const [userToggled, setUserToggled] = useState(false);
   const navigate = useNavigate();
 
+  const location = useLocation();
+  const name = location.state.value;
+
   const [values, setValues] = useState({
     word: '',
     meaning: '',
@@ -90,7 +94,7 @@ const AddWordForm = () => {
     axios.post('addworld', values)
     .then(res => {
         if(res.data.Status === "Success"){
-            navigate('/wordlist');
+            navigate('/wordlist', { state: { value: name } });
         } else{
             alert("Error");
         }
@@ -105,6 +109,7 @@ const AddWordForm = () => {
       userToggled={userToggled}
       setIsToggled={setIsToggled}
       setUserToggled={setUserToggled}
+      setUserName={name}
       />
       <Container>
         <Title>단어 추가하기</Title>
