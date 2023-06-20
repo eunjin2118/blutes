@@ -218,6 +218,8 @@ const Company = () => {
             return (
               <CompanyCard>
                 <CompanyName>{ c.company }</CompanyName>
+                {c.career}
+                {c.minEdubg}
               </CompanyCard>
             )
           })
