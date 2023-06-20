@@ -132,6 +132,8 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
   const navigateToCommunity = () => {navigate('/community');};
   const navigateToDictionary = () => {navigate('/dictionary');};
   const navigateToEmployment = () => {navigate('/employment')};
+  const navigateToCompanyLife = () => {navigate('/companylife');};
+
   return (
     <HeaderContainer isToggled={isToggled} userToggled={userToggled}>
       {/* 햄버거 버튼(bar) */}
@@ -164,7 +166,7 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled }) => {
         <li onClick={navigateToCommunity}>커뮤니티</li>
         <li onClick={navigateToDictionary}>약어사전·퀴즈</li>
         <li onClick={navigateToEmployment}>채용정보</li>
-        <li>회사라이프</li>
+        <li onClick={navigateToCompanyLife}>회사라이프</li>
         <li>면접질문</li>
       </ul>
 

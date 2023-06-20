@@ -41,15 +41,16 @@ const CompanyTitle = styled.p`
 const CategoryWrapper = styled.div`
   display: flex;
   margin-bottom: 20px;
+  justify-content: center;
 `;
 
 const CategoryButton = styled.button`
-  background-color: ${props => (props.isActive ? '#3f51b5' : '#fff')};
-  color: ${props => (props.isActive ? '#fff' : '#3f51b5')};
-  padding: 10px;
-  border: 1px solid #3f51b5;
+  margin-right: 5px;
+  background-color: ${({ isActive }) => (isActive ? '#3f51b5' : '#ccc')};
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
   border-radius: 5px;
-  margin-right: 10px;
   cursor: pointer;
 `;
 
@@ -94,24 +95,23 @@ const Title = styled.h1`
 const CompanyCardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  gap: 20px; /* 변경된 값 */
   max-width: 800px;
   width: 100%;
 `;
 
 const Company = () => {
   const [activeCategories, setActiveCategories] = useState([]);
-  
-  const [companies, setCompanies] = useState([]);
+  const [companies, setCompanies] = useState([]); // Added companies state
 
   useEffect(() => {
-    const apiUrl = 'YOUR_API_URL'; // Replace with your API URL
+    const apiUrl = 'http://localhost:3000/job_info'; // Replace with your API URL
 
     const fetchCompanies = async () => {
       try {
         const response = await axios.get(apiUrl);
         const data = response.data;
-        setCompanies(data);
+        setCompanies(data.wantedRoot.wanted);
       } catch (error) {
         console.error('API 요청 오류:', error);
       }
@@ -141,7 +141,7 @@ const Company = () => {
           switch (categoryId) {
             case 1:
               categoryOptions = (
-                <React.Fragment key={categoryId}> {/* key 속성 추가 */}
+                <>
                   <OptionItem key={1}>
                     <Checkbox type="checkbox" id="option1" name="option1" value="학력무관" />
                     <OptionLabel htmlFor="option1">학력무관</OptionLabel>
@@ -150,12 +150,12 @@ const Company = () => {
                     <Checkbox type="checkbox" id="option2" name="option2" value="고졸" />
                     <OptionLabel htmlFor="option2">고졸</OptionLabel>
                   </OptionItem>
-                </React.Fragment>
+                </>
               );
               break;
             case 2:
               categoryOptions = (
-                <React.Fragment key={categoryId}> {/* key 속성 추가 */}
+                <>
                   <OptionItem key={3}>
                     <Checkbox type="checkbox" id="option3" name="option3" value="신입" />
                     <OptionLabel htmlFor="option3">신입</OptionLabel>
@@ -164,12 +164,12 @@ const Company = () => {
                     <Checkbox type="checkbox" id="option4" name="option4" value="관계없음" />
                     <OptionLabel htmlFor="option4">관계없음</OptionLabel>
                   </OptionItem>
-                </React.Fragment>
+                </>
               );
               break;
             case 3:
               categoryOptions = (
-                <React.Fragment key={categoryId}> {/* key 속성 추가 */}
+                <>
                   <OptionItem key={5}>
                     <Checkbox type="checkbox" id="option5" name="option5" value="중소기업" />
                     <OptionLabel htmlFor="option5">중소기업</OptionLabel>
@@ -182,7 +182,7 @@ const Company = () => {
                     <Checkbox type="checkbox" id="option7" name="option7" value="스타트업" />
                     <OptionLabel htmlFor="option7">스타트업</OptionLabel>
                   </OptionItem>
-                </React.Fragment>
+                </>
               );
               break;
             default:
@@ -212,15 +212,22 @@ const Company = () => {
         {renderOptions()}
       </AppWrapper>
       <CompanyList>
-        {companies.map(company => (
-          <CompanyCard key={company.id}>
-            <CompanyName>{company.name}</CompanyName>
-            <CompanyTitle>{company.title}</CompanyTitle>
-          </CompanyCard>
-        ))}
+        {
+          
+          companies && companies.map(c => {
+            return (
+              <CompanyCard>
+                <CompanyName>{ c.company }</CompanyName>
+                {c.career}
+                {c.minEdubg}
+              </CompanyCard>
+            )
+          })
+        }
+      
       </CompanyList>
     </>
-  );
+  );  
 };
 
 export default Company;
