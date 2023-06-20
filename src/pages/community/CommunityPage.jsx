@@ -80,7 +80,7 @@ const HeartIcon = styled(RiHeart2Fill)`
   margin-right: 13px;
   width: 30px;
   height: 30px;
-  color: ${({ filled }) => (filled ? '#FF0000' : 'inherit')}; /* 추가된 부분 */
+  color: #FF0000;
   transition: color 0.3s; /* 추가된 부분 */
   cursor: pointer;
 `;
@@ -238,7 +238,7 @@ const CommunityPage = () => {
   const handleHeartIconClick = async (postId) => {
     const likedPost = posts.find((post) => post.id === postId);
   
-    if (likedPost && !likedPost.filled) {
+    if (likedPost) {
       try {
         const response = await fetch(`/updateLikes/${postId}`, {
           method: 'POST'
