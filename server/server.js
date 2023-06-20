@@ -306,25 +306,6 @@ app.post('/updateLikes/:postId', (req, res) => {
 // 외부 api연동
 const axios = require('axios');
 
-<<<<<<< HEAD
-// const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
-
-// axios
-//   .get(apiUrl), {
-//     params: {
-//       key: 'WNLJ25LTIEJLVSONBHK0S2VR1HJ',
-//       target: 'EMPLOYMENT',
-//     }
-//   }
-//   .then(response => {
-//     const data = response.data;
-//     // 데이터 처리 로직 작성
-//     console.log(data);
-//   })
-//   .catch(error => {
-//     console.error('API 요청 오류:', error);
-//   });
-=======
 app.get("/job_info", (req, res) => {
   const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
   axios
@@ -351,7 +332,6 @@ app.get("/job_info", (req, res) => {
   });
 })
 
->>>>>>> 26f48d3e0216119e78afb3f351644f0b3e570e60
 
 
 app.listen(5000, ()=>{
