@@ -163,7 +163,8 @@ app.get('/posts/:id', (req, res) => {
     FROM board as b
     LEFT JOIN comments as c
     ON b.id = c.post_id
-    WHERE b.id = ?;
+    WHERE b.id = ?
+    ORDER BY c.content DESC;
   `; // post_date를 YYYY-MM-DD 형식으로 가져옴
   db.query(selectSql, [id], async (err, rows) => {
     if (err) {
