@@ -86,6 +86,7 @@ const MainContainer = styled.div `
 `;
 
 const Card = styled.div`
+  font-family: 'ContentFont2';  
   background: ${(props) => props.cardColor || '#FFFFFF'};
   margin: 10px;
   padding: 16px;
