@@ -167,12 +167,12 @@ app.get('/posts/:id', (req, res) => {
   const id = req.params.id;
   var selectSql = `
     SELECT 
-    b.id, b.title, DATE_FORMAT(b.post_date, '%Y-%m-%d') AS post_date, b.content as board_content, c.content as comment_content, c.nickname, DATE_FORMAT(c.comment_date, '%Y-%m-%d') AS comment_date
+    b.id, b.title, DATE_FORMAT(b.post_date, '%Y-%m-%d') AS post_date, b.content as board_content, c.content as comment_content, c.nickname, DATE_FORMAT(c.post_time, '%Y-%m-%d') AS post_time
     FROM board as b
     LEFT JOIN comments as c
     ON b.id = c.post_id
     WHERE b.id = ?
-    ORDER BY comment_date DESC;
+    ORDER BY post_time DESC;
   `; // post_date를 YYYY-MM-DD 형식으로 가져오고 댓글을 게시날짜를 기준으로 내림차순으로 정렬
   db.query(selectSql, [id], async (err, rows) => {
     if (err) {
@@ -205,6 +205,7 @@ app.post('/addworld', (req, res) => {
       })
 })
 
+// 단어장 읽기
 app.get('/getWords', (req, res) => {
     const sql = "SELECT word, meaning, sentence, DATE_FORMAT(date, '%Y-%m-%d') AS date FROM word";
     db.query(sql, (err, result)=>{
@@ -222,13 +223,15 @@ app.get('/quiz', (req, res)=>{
 })
 })
 
+// 댓글 보내기
 app.post('/comments/:id', (req, res) => {
   const postId = req.params.id;
   const commentContent = req.body.comment;
+  const postTime = new Date(); // 현재 시간을 가져옴
 
   // 댓글 추가
-  const insertSql = "INSERT INTO comments (post_id, content, nickname) VALUES (?, ?, ?)";
-  const insertParams = [postId, commentContent, req.body.nickname]; // Assuming 'nickname' is sent in the request body
+  const insertSql = "INSERT INTO comments (post_id, content, nickname, post_time) VALUES (?, ?, ?, ?)";
+  const insertParams = [postId, commentContent, req.body.nickname, postTime]; // Assuming 'nickname' is sent in the request body
 
   db.query(insertSql, insertParams, (err, result) => {
     if (err) {
@@ -237,6 +240,22 @@ app.post('/comments/:id', (req, res) => {
     } else {
       console.log('댓글 추가 완료');
       res.status(200).json({ message: '댓글이 추가되었습니다.' });
+
+      // 새로운 쿼리 작성
+      var selectSql = "SELECT * FROM comments";
+
+      // 쿼리 실행하여 데이터 조회
+      db.query(selectSql, (err, rows) => {
+        if (err) {
+          console.log(err);
+          res.send('Error occurred while retrieving data.');
+        } else {
+          console.log('데이터 조회 완료');
+
+          // 데이터를 JSON 형식으로 클라이언트에 전송
+          res.json(rows);
+        }
+      });
     }
   });
 });
