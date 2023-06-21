@@ -8,7 +8,7 @@ import axios from "axios";
 
 const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled, setUserName }) => {
   const userName = setUserName;
-  const HeaderContainer = styled.div(({isToggled, userToggled, setUserName})=>`
+  const HeaderContainer = styled.div`
   @font-face {
     font-family: 'TitleFont';
     src: url('../fonts/TitleFont.ttf') format('truetype');
@@ -148,7 +148,7 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled, setUserN
       display: block;
     }
   }`
-  )
+
 
   const navigate = useNavigate();
   const navigateToCommunity = () => {navigate('/community',{state : {value : userName}})};
