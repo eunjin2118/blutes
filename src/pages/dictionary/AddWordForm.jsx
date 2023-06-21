@@ -12,11 +12,8 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background-color: #f2f2f2;
   height: 100vh;
-  background-image: url(${bg});
-  background-size: cover;
-  background-position: center;
+  margin-top: -5%;
 `;
 
 const Title = styled.h1`
@@ -74,6 +71,12 @@ const SubmitButton = styled.input`
   font-size: 14px;
 `;
 
+const Body = styled.div`
+  background-image: url(${bg});
+  background-size: cover;
+  background-position: center;
+`;
+
 const AddWordForm = () => {
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
@@ -104,50 +107,52 @@ const AddWordForm = () => {
         }
     })
     .then(err => console.log(err))
-}
+  };
 
   return (
     <>
       <Header
-      isToggled={isToggled}
-      userToggled={userToggled}
-      setIsToggled={setIsToggled}
-      setUserToggled={setUserToggled}
-      setUserName={name}
+        isToggled={isToggled}
+        userToggled={userToggled}
+        setIsToggled={setIsToggled}
+        setUserToggled={setUserToggled}
+        setUserName={name}
       />
-      <Container>
-        <Title>단어 추가하기</Title>
-        <Form onSubmit={handleSubmit}>
-          <Label htmlFor="word">단어:</Label>
-          <TextInput
-            type="text"
-            id="word"
-            name="word"
-            onChange={handleInput}
-            required
-          />
+      <Body>
+        <Container>
+          <Title>단어 추가하기</Title>
+          <Form onSubmit={handleSubmit}>
+            <Label htmlFor="word">단어:</Label>
+            <TextInput
+              type="text"
+              id="word"
+              name="word"
+              onChange={handleInput}
+              required
+            />
 
-          <Label htmlFor="meaning">의미:</Label>
-          <TextInput
-            type="text"
-            id="meaning"
-            name="meaning"
-            onChange={handleInput}
-            required
-          />
+            <Label htmlFor="meaning">의미:</Label>
+            <TextInput
+              type="text"
+              id="meaning"
+              name="meaning"
+              onChange={handleInput}
+              required
+            />
 
-          <Label htmlFor="sentence">예시 문장:</Label>
-          <TextArea
-            id="sentence"
-            name="sentence"
-            rows="4"
-            onChange={handleInput}
-            required
-          ></TextArea>
+            <Label htmlFor="sentence">예시 문장:</Label>
+            <TextArea
+              id="sentence"
+              name="sentence"
+              rows="4"
+              onChange={handleInput}
+              required
+            ></TextArea>
 
-          <SubmitButton type="submit" value="추가" />
-        </Form>
-      </Container>
+            <SubmitButton type="submit" value="추가" />
+          </Form>
+        </Container>
+      </Body>
     </>
   );
 };
