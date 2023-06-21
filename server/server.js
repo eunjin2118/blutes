@@ -227,11 +227,10 @@ app.get('/quiz', (req, res)=>{
 app.post('/comments/:id', (req, res) => {
   const postId = req.params.id;
   const commentContent = req.body.comment;
-  const postTime = new Date(); // 현재 시간을 가져옴
 
   // 댓글 추가
-  const insertSql = "INSERT INTO comments (post_id, content, nickname, post_time) VALUES (?, ?, ?, ?)";
-  const insertParams = [postId, commentContent, req.body.nickname, postTime]; // Assuming 'nickname' is sent in the request body
+  const insertSql = "INSERT INTO comments (post_id, content, nickname) VALUES (?, ?, ?)";
+  const insertParams = [postId, commentContent, req.body.nickname]; // Assuming 'nickname' is sent in the request body
 
   db.query(insertSql, insertParams, (err, result) => {
     if (err) {
@@ -240,22 +239,6 @@ app.post('/comments/:id', (req, res) => {
     } else {
       console.log('댓글 추가 완료');
       res.status(200).json({ message: '댓글이 추가되었습니다.' });
-
-      // 새로운 쿼리 작성
-      var selectSql = "SELECT * FROM comments";
-
-      // 쿼리 실행하여 데이터 조회
-      db.query(selectSql, (err, rows) => {
-        if (err) {
-          console.log(err);
-          res.send('Error occurred while retrieving data.');
-        } else {
-          console.log('데이터 조회 완료');
-
-          // 데이터를 JSON 형식으로 클라이언트에 전송
-          res.json(rows);
-        }
-      });
     }
   });
 });
