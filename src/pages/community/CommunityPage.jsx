@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { RiHeart2Fill, RiChat1Line } from 'react-icons/ri';
 import Header from "../Header";
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import penimg from '../../img/pen.png'
 
 // 스타일드 컴포넌트 정의
 const SearchContainer = styled.div`
@@ -15,6 +15,8 @@ const SearchContainer = styled.div`
 `;
 
 const SearchInput = styled.input`
+  /* 폰트 적용 */
+  font-family: 'ContentFont2';
   width: 100%;
   border: 1px solid #bbb;
   border-radius: 8px;
@@ -32,8 +34,17 @@ const SearchIcon = styled.img`
   margin: 0;
 `;
 
+const PenIcon = styled.img`
+  position: absolute;
+  width: 17px;
+  right: 13%;
+  top:30%
+  margin-right: 10px;
+`
+
 const PostButton = styled.button`
-  padding: 10px 20px;
+  font-family: 'ContentFont1';
+  padding: 10px 30px;
   margin-left: 10px;
   background-color: #071DA1;
   color: #fff;
@@ -51,24 +62,31 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.h2`
+  /* 폰트 적용 */
+  font-family: 'ContentFont3';
   margin-top: -5%;
   flex-grow: 1;
   color: #212529;
 `;
 
 const WriteDate = styled.p`
+  /* 폰트 적용 */
+  font-family: 'ContentFont2';
   margin-top: 0.5%;
   text-align: right;
   color: #212529;
 `;
 
 const Content = styled.p`
+  /* 폰트 적용 */
+  font-family: 'ContentFont2';
   text-align: left;
   margin-top: 10px;
   color: #495057;
 `;
 
 const View = styled.p`
+  font-family: 'ContentFont2';
   align-self: flex-start;
   margin-bottom: 0;
   color: #212529;
@@ -129,24 +147,29 @@ const Todate = styled.div`
   margin-top: 20px;
   margin-left: 20px;
   color: #E0E0E0;
+  font-family: 'ContentFont2';
 `;
 
 const TodayVisitor = styled.div`
+font-family: 'ContentFont2';
   margin-top: 10px;
   margin-left: 20px;
 `;
 
 const VisitorCount = styled.p`
+  font-family: 'ContentFont2';
   margin-left: 20px;
   color: #071DA1;
 `;
 
 const TodayComment = styled.p`
+  font-family: 'ContentFont2';
   margin-top: 10px;
   margin-left: 20px;
 `;
 
 const CommenterCount = styled.p`
+  font-family: 'ContentFont2';
   margin-left: 20px;
   color: #071DA1;
 `;
@@ -296,7 +319,8 @@ const CommunityPage = () => {
             onChange={handleSearchInputChange}
           />
           <SearchIcon src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" />
-          <PostButton onClick={handlePostButtonClick}>작성하기</PostButton>
+          <PostButton onClick={handlePostButtonClick}>
+            <PenIcon src={penimg}/>작성하기</PostButton>
         </SearchContainer>
         <hr />
         <Wrapper>

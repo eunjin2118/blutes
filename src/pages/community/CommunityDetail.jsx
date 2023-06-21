@@ -19,6 +19,7 @@ const SearchContainer = styled.div`
 `;
 
 const SearchInput = styled.input`
+  font-family: 'ContentFont2';
   width: 100%;
   border: 1px solid #bbb;
   border-radius: 8px;
@@ -55,6 +56,7 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.h2`
+  font-family: 'ContentFont3';
   margin-left: 20px;
   margin-top: 2%;
   flex-grow: 1;
@@ -64,6 +66,7 @@ const Title = styled.h2`
 `;
 
 const Content = styled.p`
+  font-family: 'ContentFont2';
   margin-left: 30px;
   text-align: left;
   margin-top: 10px;
@@ -117,6 +120,8 @@ const CommentInput = styled.input`
 `;
 
 const CommentButton = styled.button`
+  font-family: 'ContentFont2';
+  margin-left: 2%;
   height: 35px;
   border-radius: 4px;
   cursor: pointer;
@@ -130,10 +135,12 @@ const Comment = styled.div`
 `;
 
 const CommentAuthor = styled.h2`
+  font-family: 'ContentFont3';
   font-size: 18px;
 `;
 
 const CommentContent = styled.p`
+  font-family: 'ContentFont2';
   margin-top: 5px;
 `;
 
