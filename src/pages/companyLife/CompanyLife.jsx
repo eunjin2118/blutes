@@ -13,6 +13,19 @@ import { useLocation } from 'react-router-dom/dist/umd/react-router-dom.developm
 
 const StyledSlider = styled(Slider)`
 
+  .slick-slider{  
+    width: 100%;
+    background-color: #e9ecef;
+    margin: 0 10px;
+  }
+  .slick-slide{
+    img{
+      object-fit: cover;
+      width: 100%;
+      height: 300px;
+    }
+  }
+
   .slick-prev {
     z-index: 1;
     left: 30px;
@@ -52,7 +65,7 @@ const Container = styled.div `
 
 const SliderContainer = styled.div`
   width: 100%;
-  max-width: 700px;
+  max-width: 95%;
   margin: 0 auto;
   margin-top: 4%;
 `;
@@ -228,7 +241,7 @@ const CompanyLife = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 1,
+    slidesToShow: 3,
     slidesToScroll: 1,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
