@@ -77,6 +77,14 @@ const Header = ({ isToggled, userToggled, setIsToggled, setUserToggled, setUserN
     padding: 1rem 1rem;
   }
 
+  li button{
+    background-color: white;
+    border: #071DA1 1px solid;
+    border-radius: 6px;
+    color: #071DA1;
+    height: 30px;
+  }
+
   @media screen and (max-width: 1290px) {
     flex-wrap: wrap;
 

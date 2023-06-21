@@ -106,8 +106,10 @@ const Company = () => {
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
   const [activeCategories, setActiveCategories] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [companies, setCompanies] = useState([]); // Added companies state
-  
+  const [filteredCompanies, setFilteredCompanies] = useState([]); // Added filteredCompanies state
+
   const location = useLocation();
   const name = location.state.value;
 
@@ -127,66 +129,180 @@ const Company = () => {
     fetchCompanies();
   }, []);
 
-  const handleCategoryClick = categoryId => {
-    setActiveCategories(prevActiveCategories => {
+  const handleCheckboxChange = (e, categoryId) => {
+    const { value, checked } = e.target;
+    setSelectedOptions((prevSelectedOptions) => {
+      if (checked) {
+        return [...prevSelectedOptions, { categoryId, value }];
+      } else {
+        return prevSelectedOptions.filter(
+          (option) => option.categoryId !== categoryId || option.value !== value
+        );
+      }
+    });
+  };
+  
+  useEffect(() => {
+    // Filter companies based on active categories and selected options
+    const filtered = companies.filter((c) => {
+      if (activeCategories.includes(1)) {
+        const selectedOption = selectedOptions.find(
+          (option) => option.categoryId === 1
+        );
+        if (selectedOption) {
+          if (selectedOption.value === "학력무관") {
+            return c.minEdubg === "학력무관";
+          } else if (selectedOption.value === "고졸") {
+            return c.minEdubg === "고졸";
+          }
+        }
+      }
+      if (activeCategories.includes(2)) {
+        const selectedOption = selectedOptions.find(
+          (option) => option.categoryId === 2
+        );
+        if (selectedOption) {
+          if (selectedOption.value === "신입") {
+            return c.career === "신입";
+          } else if (selectedOption.value === "관계없음") {
+            return c.career === "관계없음";
+          }
+        }
+      }
+      if (activeCategories.includes(3)) {
+        // Filter based on 기업형태 category
+        const selectedOption = selectedOptions.find(
+          (option) => option.categoryId === 3
+        );
+        if (selectedOption) {
+          if (selectedOption.value === "중소기업") {
+            return c.companyType === "중소기업";
+          } else if (selectedOption.value === "대기업") {
+            return c.companyType === "대기업";
+          } else if (selectedOption.value === "스타트업") {
+            return c.companyType === "스타트업";
+          }
+        }
+      }
+      return true;
+    });
+    setFilteredCompanies(filtered);
+  }, [activeCategories, selectedOptions, companies]);
+
+  useEffect(() => {
+    // Filter companies based on active categories
+    const filtered = companies.filter((c) => {
+      if (activeCategories.includes(1)) {
+        // Check if "학력무관" checkbox is active
+        return c.minEdubg === '학력무관';
+      }
+      return true;
+    });
+    setFilteredCompanies(filtered);
+  }, [activeCategories, companies]);
+
+  const handleCategoryClick = (categoryId) => {
+    setActiveCategories((prevActiveCategories) => {
       if (prevActiveCategories.includes(categoryId)) {
-        return prevActiveCategories.filter(id => id !== categoryId);
+        return prevActiveCategories.filter((id) => id !== categoryId);
       }
       return [...prevActiveCategories, categoryId];
     });
   };
 
   const renderOptions = () => {
-    if (activeCategories.length === 0) {
-      return null;
-    }
+  if (activeCategories.length === 0) {
+    return null;
+  }
 
-    return (
-      <OptionWrapper>
-        {activeCategories.map(categoryId => {
-          let categoryOptions = null;
-          switch (categoryId) {
-            case 1:
-              categoryOptions = (
-                <>
-                  <OptionItem key={1}>
-                    <Checkbox type="checkbox" id="option1" name="option1" value="학력무관" />
-                    <OptionLabel htmlFor="option1">학력무관</OptionLabel>
-                  </OptionItem>
-                  <OptionItem key={2}>
-                    <Checkbox type="checkbox" id="option2" name="option2" value="고졸" />
-                    <OptionLabel htmlFor="option2">고졸</OptionLabel>
-                  </OptionItem>
-                </>
-              );
-              break;
-            case 2:
-              categoryOptions = (
-                <>
-                  <OptionItem key={3}>
-                    <Checkbox type="checkbox" id="option3" name="option3" value="신입" />
-                    <OptionLabel htmlFor="option3">신입</OptionLabel>
-                  </OptionItem>
-                  <OptionItem key={4}>
-                    <Checkbox type="checkbox" id="option4" name="option4" value="관계없음" />
-                    <OptionLabel htmlFor="option4">관계없음</OptionLabel>
-                  </OptionItem>
-                </>
-              );
-              break;
+  return (
+    <OptionWrapper>
+      {activeCategories.map((categoryId) => {
+        let categoryOptions = null;
+        switch (categoryId) {
+          case 1:
+            categoryOptions = (
+              <>
+                <OptionItem key={1}>
+                  <Checkbox
+                    type="checkbox"
+                    id="option1"
+                    name="option1"
+                    value="학력무관"
+                    onChange={(e) => handleCheckboxChange(e, categoryId)}
+                  />
+                  <OptionLabel htmlFor="option1">학력무관</OptionLabel>
+                </OptionItem>
+                <OptionItem key={2}>
+                  <Checkbox
+                    type="checkbox"
+                    id="option2"
+                    name="option2"
+                    value="고졸"
+                    onChange={(e) => handleCheckboxChange(e, categoryId)}
+                  />
+                  <OptionLabel htmlFor="option2">고졸</OptionLabel>
+                </OptionItem>
+              </>
+            );
+            break;
+          case 2:
+            categoryOptions = (
+              <>
+                <OptionItem key={3}>
+                  <Checkbox
+                    type="checkbox"
+                    id="option3"
+                    name="option3"
+                    value="신입"
+                    onChange={(e) => handleCheckboxChange(e, categoryId)}
+                  />
+                  <OptionLabel htmlFor="option3">신입</OptionLabel>
+                </OptionItem>
+                <OptionItem key={4}>
+                  <Checkbox
+                    type="checkbox"
+                    id="option4"
+                    name="option4"
+                    value="관계없음"
+                    onChange={(e) => handleCheckboxChange(e, categoryId)}
+                  />
+                  <OptionLabel htmlFor="option4">관계없음</OptionLabel>
+                </OptionItem>
+              </>
+            );
+            break;
             case 3:
               categoryOptions = (
                 <>
                   <OptionItem key={5}>
-                    <Checkbox type="checkbox" id="option5" name="option5" value="중소기업" />
+                    <Checkbox
+                      type="checkbox"
+                      id="option5"
+                      name="option5"
+                      value="중소기업"
+                      onChange={(e) => handleCheckboxChange(e, categoryId)}
+                    />
                     <OptionLabel htmlFor="option5">중소기업</OptionLabel>
                   </OptionItem>
                   <OptionItem key={6}>
-                    <Checkbox type="checkbox" id="option6" name="option6" value="대기업" />
+                    <Checkbox
+                      type="checkbox"
+                      id="option6"
+                      name="option6"
+                      value="대기업"
+                      onChange={(e) => handleCheckboxChange(e, categoryId)}
+                    />
                     <OptionLabel htmlFor="option6">대기업</OptionLabel>
                   </OptionItem>
                   <OptionItem key={7}>
-                    <Checkbox type="checkbox" id="option7" name="option7" value="스타트업" />
+                    <Checkbox
+                      type="checkbox"
+                      id="option7"
+                      name="option7"
+                      value="스타트업"
+                      onChange={(e) => handleCheckboxChange(e, categoryId)}
+                    />
                     <OptionLabel htmlFor="option7">스타트업</OptionLabel>
                   </OptionItem>
                 </>
@@ -203,7 +319,7 @@ const Company = () => {
 
   return (
     <>
-     <Header
+      <Header
         isToggled={isToggled}
         userToggled={userToggled}
         setIsToggled={setIsToggled}
@@ -213,7 +329,7 @@ const Company = () => {
       <AppWrapper>
         <Title>채용정보 카테고리</Title>
         <CategoryWrapper>
-          {categories.map(category => (
+          {categories.map((category) => (
             <CategoryButton
               key={category.id}
               isActive={activeCategories.includes(category.id)}
@@ -227,7 +343,7 @@ const Company = () => {
       </AppWrapper>
       <CompanyList>
         <CompanyCardContainer>
-          {companies.map((c, index) => (
+          {filteredCompanies.map((c, index) => (
             <CompanyCard key={index}>
               <CompanyName>{c.company}</CompanyName>
               <CompanyTitle>{c.career}</CompanyTitle>
@@ -237,7 +353,7 @@ const Company = () => {
         </CompanyCardContainer>
       </CompanyList>
     </>
-  );  
+  );
 };
 
 export default Company;

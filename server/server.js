@@ -167,12 +167,11 @@ app.get('/posts/:id', (req, res) => {
   const id = req.params.id;
   var selectSql = `
     SELECT 
-    b.id, b.title, DATE_FORMAT(b.post_date, '%Y-%m-%d') AS post_date, b.content as board_content, c.content as comment_content, c.nickname, DATE_FORMAT(c.post_time, '%Y-%m-%d') AS post_time
+    b.id, b.title, DATE_FORMAT(b.post_date, '%Y-%m-%d') AS post_date, b.content as board_content, c.content as comment_content, c.nickname
     FROM board as b
     LEFT JOIN comments as c
     ON b.id = c.post_id
     WHERE b.id = ?
-    ORDER BY post_time DESC;
   `; // post_date를 YYYY-MM-DD 형식으로 가져오고 댓글을 게시날짜를 기준으로 내림차순으로 정렬
   db.query(selectSql, [id], async (err, rows) => {
     if (err) {
