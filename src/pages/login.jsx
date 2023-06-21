@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import backimg from "../img/company3.jpg";
-import Header from "./Header.js";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
@@ -20,7 +19,6 @@ const ImgBox = styled.div`
 `;
 
 const BackgroundImg = styled.div`
-  margin-top: 2px;
   width: 100%;
   height: 100%;
   background-image: url(${backimg});
