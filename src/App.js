@@ -10,7 +10,6 @@ import WordList from './pages/dictionary/WordList.jsx';
 import CommunityDetailPage from './pages/community/CommunityDetail';
 import WordQuizPage from './pages/dictionary/Quiz';
 import EmploymentPage  from './pages/employment/Company';
-import Main from './pages/dictionary/Main';
 import CompanyLifePage from './pages/companyLife/CompanyLife';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { createGlobalStyle } from 'styled-components';
@@ -39,7 +38,6 @@ function App() {
           <Route exact path='/wordquiz' element={<WordQuizPage />}/>
           <Route exact path='/employment' element={<EmploymentPage/>}/>
           <Route exact path='/companylife' element={<CompanyLifePage />}/>
-          <Route exact path='/mmain' element = {<Main />}/>
         </Routes>
       </Router>
     </div>
