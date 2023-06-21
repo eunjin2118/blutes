@@ -33,7 +33,7 @@ const FormWrapper = styled.div`
 `;
 
 const Title = styled.h2`
-  font-family: 'ContentFont3';
+  font-family: 'TitleFont';
   margin-top: 0;
   font-size: 24px;
   color: #333;
