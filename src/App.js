@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import MainPage from './pages/MainPage.jsx';
 import LoginPage from './pages/login.jsx';
-import SignupPage from './pages/Signup';
+import SignupPage from './pages/signup';
 import DictionaryPage from './pages/dictionary/AddWordForm';
 import CommunityPage from './pages/community/CommunityPage';
 import PostPage from './pages/community/post';

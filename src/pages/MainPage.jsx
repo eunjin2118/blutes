@@ -18,8 +18,9 @@ function App() {
 
   const SlideshowContainer = styled.div`
     position: relative;
+    margin-top: 112px;
     width: 100%;
-    height: auto;
+    height: 100%;
     padding-bottom: 46%; /* 16:9 비율을 유지하기 위한 값 */
     object-fit: cover;
     overflow: hidden;

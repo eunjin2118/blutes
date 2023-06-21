@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Header from '../Header';
 import axios from "axios";
 import { useLocation, useNavigate } from 'react-router-dom';
+import bg from "../../img/communitybg.png";
 
 const Container = styled.div`
   display: flex;
@@ -13,6 +14,9 @@ const Container = styled.div`
   justify-content: center;
   width: 100%;
   height: 100vh;
+  background-image: url(${bg});
+  background-size: cover;
+  background-position: center;
 `;
 
 const FormWrapper = styled.div`
