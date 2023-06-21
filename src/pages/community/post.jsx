@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Header from '../Header';
 import axios from "axios";
 import { useLocation, useNavigate } from 'react-router-dom';
-import bg from "../../img/communitybg.png";
+import bg from "../../img/postbg.png";
 
 const Container = styled.div`
   display: flex;
@@ -29,6 +29,7 @@ const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: -70px;
 `;
 
 const Title = styled.h2`
@@ -86,7 +87,7 @@ const SubmitButton = styled.button`
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: #4caf50;
+  background-color: #071DA1;;
   color: #fff;
   border: none;
   border-radius: 4px;
