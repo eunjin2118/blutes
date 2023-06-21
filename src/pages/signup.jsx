@@ -28,7 +28,7 @@ function Signup() {
             if(res.data.Status === "Success"){
                 navigate('/');
             } else{
-                alert("Error");
+                alert("이미 이름이 존재합니다. 다른 이름을 이용해주세요.");
             }
         })
         .then(err => console.log(err))
