@@ -4,6 +4,7 @@ import { RiHeart2Fill, RiChat1Line } from 'react-icons/ri';
 import Header from "../Header";
 import { useLocation, useNavigate } from 'react-router-dom';
 
+
 // 스타일드 컴포넌트 정의
 const SearchContainer = styled.div`
   position: relative;
@@ -155,6 +156,10 @@ const ViewWrapper = styled.div`
   justify-content: space-between;
 `;
 
+const BackGround = styled.div`
+  width: 100%;
+  height: 100%;
+`
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   const year = date.getFullYear();
@@ -276,59 +281,59 @@ const CommunityPage = () => {
 
   return (
     <div>
-      <Header
-      isToggled={isToggled}
-      userToggled={userToggled}
-      setIsToggled={setIsToggled}
-      setUserToggled={setUserToggled}
-      setUserName={name}
-      />
-      <SearchContainer>
-        <SearchInput
-          type="text"
-          placeholder="검색어 입력"
-          value={searchInput}
-          onChange={handleSearchInputChange}
+        <Header
+        isToggled={isToggled}
+        userToggled={userToggled}
+        setIsToggled={setIsToggled}
+        setUserToggled={setUserToggled}
+        setUserName={name}
         />
-        <SearchIcon src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" />
-        <PostButton onClick={handlePostButtonClick}>작성하기</PostButton>
-      </SearchContainer>
-      <hr />
-      <Wrapper>
-        <PageContainer>
-          {posts &&
-            posts.map((p) => (
-              <div style={{ width: '100%' }} key={p.id}>
-                <WriteDate>{formatDate(p.post_date)}</WriteDate>
-                <TitleWrapper>
-                  <Title>{p.title}</Title>
-                </TitleWrapper>
-                <Content
-                  className='Content'
-                  dangerouslySetInnerHTML={{ __html: p.content }}
-                ></Content>
-                <ViewWrapper>
-                  <View className='View'>조회수 {p.views}</View>
-                  <IconWrapper>
-                    <CommentIcon onClick={() => handleDetailIconClick(p.id)} />
-                    <HeartIcon
-                    filled={p.filled} /* 추가된 부분 */
-                    onClick={() => handleHeartIconClick(p.id)} /* 추가된 부분 */
-                  />{p.likes}
-                  </IconWrapper>
-                </ViewWrapper>
-                <hr />
-              </div>
-            ))}
-        </PageContainer>
-        <TodayContainer>
-          <Todate className='Todate'>{todayDate}</Todate>
-          <TodayVisitor className='TodayVisitor'>누적 방문자</TodayVisitor>
-          <VisitorCount className='VisitorCount'>{visitorCount}명</VisitorCount>
-          <TodayComment className='TodayComment'>총 게시물 수</TodayComment>
-          <CommenterCount className='CommenterCount'>{posts.length}</CommenterCount>
-        </TodayContainer>
-      </Wrapper>
+        <SearchContainer>
+          <SearchInput
+            type="text"
+            placeholder="검색어 입력"
+            value={searchInput}
+            onChange={handleSearchInputChange}
+          />
+          <SearchIcon src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" />
+          <PostButton onClick={handlePostButtonClick}>작성하기</PostButton>
+        </SearchContainer>
+        <hr />
+        <Wrapper>
+          <PageContainer>
+            {posts &&
+              posts.map((p) => (
+                <div style={{ width: '100%' }} key={p.id}>
+                  <WriteDate>{formatDate(p.post_date)}</WriteDate>
+                  <TitleWrapper>
+                    <Title>{p.title}</Title>
+                  </TitleWrapper>
+                  <Content
+                    className='Content'
+                    dangerouslySetInnerHTML={{ __html: p.content }}
+                  ></Content>
+                  <ViewWrapper>
+                    <View className='View'>조회수 {p.views}</View>
+                    <IconWrapper>
+                      <CommentIcon onClick={() => handleDetailIconClick(p.id)} />
+                      <HeartIcon
+                      filled={p.filled} /* 추가된 부분 */
+                      onClick={() => handleHeartIconClick(p.id)} /* 추가된 부분 */
+                    />{p.likes}
+                    </IconWrapper>
+                  </ViewWrapper>
+                  <hr />
+                </div>
+              ))}
+          </PageContainer>
+          <TodayContainer>
+            <Todate className='Todate'>{todayDate}</Todate>
+            <TodayVisitor className='TodayVisitor'>누적 방문자</TodayVisitor>
+            <VisitorCount className='VisitorCount'>{visitorCount}명</VisitorCount>
+            <TodayComment className='TodayComment'>총 게시물 수</TodayComment>
+            <CommenterCount className='CommenterCount'>{posts.length}</CommenterCount>
+          </TodayContainer>
+        </Wrapper>
     </div >
   );
 };

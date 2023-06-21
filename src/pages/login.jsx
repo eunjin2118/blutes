@@ -60,6 +60,13 @@ const Label = styled.label`
 
 const LoginButton = styled.button`
   /* styles for the login button */
+  width: 100%;
+  margin-left: 2%;
+  padding: 0.8rem;
+  margin-top: 20px;
+  border: none;
+  color: white;
+  background-color: #071DA1;
 `;
 
 const Input = styled.input`
