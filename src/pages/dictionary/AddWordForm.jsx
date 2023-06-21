@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../Header';
 import axios from "axios";
 import { useLocation } from 'react-router-dom/dist/umd/react-router-dom.development';
+import bg from "../../img/addwordbg.png";
 
 const Container = styled.div`
   display: flex;
@@ -13,6 +14,9 @@ const Container = styled.div`
   padding: 20px;
   background-color: #f2f2f2;
   height: 100vh;
+  background-image: url(${bg});
+  background-size: cover;
+  background-position: center;
 `;
 
 const Title = styled.h1`
