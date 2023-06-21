@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import backimg from "../img/company3.jpg";
+import backimg from "../img/loginbg.png";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 

@@ -205,7 +205,6 @@ app.post('/addworld', (req, res) => {
       })
 })
 
-// 단어장 읽기
 app.get('/getWords', (req, res) => {
     const sql = "SELECT word, meaning, sentence, DATE_FORMAT(date, '%Y-%m-%d') AS date FROM word";
     db.query(sql, (err, result)=>{
@@ -223,7 +222,6 @@ app.get('/quiz', (req, res)=>{
 })
 })
 
-// 댓글 보내기
 app.post('/comments/:id', (req, res) => {
   const postId = req.params.id;
   const commentContent = req.body.comment;
