@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
 import backimg from '../img/loginbg.png';
-import Header from './Header.js';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
