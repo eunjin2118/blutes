@@ -49,16 +49,19 @@ const Card = styled.div`
 `;
 
 const Word = styled.h3`
+  font-family: 'ContentFont3'
   margin-bottom: 10px;
   color: #333;
 `;
 
 const Meaning = styled.p`
+  font-family: 'ContentFont2'
   margin-bottom: 10px;
   color: #555;
 `;
 
 const Sentence = styled.p`
+  font-family: 'ContentFont2'
   color: #777;
 `;
 
@@ -68,6 +71,7 @@ const TopContainer = styled.div `
 `;
 
 const MyWords = styled.h2` 
+  font-family: 'ContentFont3';
   margin-top: 50px;
   margin-left: 3%
 `;
@@ -79,19 +83,21 @@ const Buttons = styled.div `
 `;
 
 const Addword = styled.button `
+  font-family: 'ContentFont2';
   width: 100px;
   height: 50px;
-  background-color: #071DA1;
+  border: 2px solid #071DA1;
+  background-color: white;
   border-radius: 8px;
-  color: white;
-  border: none;
+  color: #071DA1;
 `;
 
 const StartQuiz = styled.button `
+  font-family: 'ContentFont2';
   width: 100px;
   height: 50px;
   margin-left: 1%;
-  background-color: green;
+  background-color: #071DA1;
   border-radius: 8px;
   color: white;
   border: none;

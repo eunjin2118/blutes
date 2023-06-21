@@ -21,6 +21,7 @@ const QuizContainer = styled.div`
 `;
 
 const Word = styled.h1`
+  font-family: 'ContentFont3';
   font-size: 40px;
   margin-bottom: 5px;
 `;
@@ -77,6 +78,7 @@ const AnswerList = styled.ul`
 `;
 
 const AnswerItem = styled.li`
+  font-family: 'ContentFont2';  
   display: flex;
   align-items: center;
   margin-bottom: 10px;
@@ -86,6 +88,7 @@ const AnswerItem = styled.li`
 `;
 
 const AnswerText = styled.span`
+  font-family: 'ContentFont2';  
   margin-right: 10px;
   flex-grow: 1;
   font-weight: bold;
@@ -108,6 +111,7 @@ const BtnContainer = styled.div `
 `;
 
 const ButtonOk = styled.button`
+  font-family: 'ContentFont2';  
   width: 5vw;
   height: 3vh;
   font-size: 18px;
@@ -119,6 +123,7 @@ const ButtonOk = styled.button`
 `;
 
 const ButtonRetry = styled.button`
+  font-family: 'ContentFont2';  
   width: 5vw;
   height: 3vh;
   font-size: 18px;
@@ -229,8 +234,8 @@ const QuizPage = () => {
         setUserName={name}
       />
       <ResultContainer>
-        <h2>점수: {score}점</h2>
-        <p>{feedbackText}</p>
+        <h2 style={{fontFamily: 'ContentFont3'}}>점수: {score}점</h2>
+        <p style={{fontFamily: 'ContentFont2'}}>{feedbackText}</p>
         <AnswerList>
           {quizzes.map((quiz, index) => (
             <AnswerItem key={index}>
@@ -284,7 +289,7 @@ const QuizPage = () => {
                 {meaning}
               </Button>
             ))}
-            <div style={{fontSize:'22px', textAlign: 'center', margin: '7%', color: '#071DA1', fontWeight: 'bold' }}>
+            <div style={{fontFamily: 'ContentFont2', fontSize:'22px', textAlign: 'center', margin: '7%', color: '#071DA1', fontWeight: 'bold' }}>
               {currentQuiz + 1} / {quizzes.length}
             </div>
           </ButtonContainer>

@@ -17,6 +17,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
+  font-family: 'TitleFont';
   margin-bottom: 20px;
   color: #333;
   text-align: center;
@@ -36,6 +37,7 @@ const Form = styled.form`
 `;
 
 const Label = styled.label`
+  font-family: 'ContentFont2';
   margin-bottom: 5px;
   font-weight: bold;
   color: #333;
@@ -62,6 +64,7 @@ const TextArea = styled.textarea`
 `;
 
 const SubmitButton = styled.input`
+  font-family: 'ContentFont2';
   padding: 12px;
   background-color: #071DA1;
   color: white;
