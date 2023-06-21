@@ -33,6 +33,7 @@ const FormWrapper = styled.div`
 `;
 
 const Title = styled.h2`
+  font-family: 'ContentFont3';
   margin-top: 0;
   font-size: 24px;
   color: #333;
@@ -47,12 +48,14 @@ const FormGroup = styled.div`
 `;
 
 const Label = styled.label`
+  font-family: 'ContentFont2';
   display: block;
   margin-bottom: 5px;
   font-weight: 500;
 `;
 
 const Input = styled.input`
+  font-family: 'ContentFont2';
   width: calc(100% - 20px);
   padding: 10px;
   border: 1px solid #ccc;
@@ -84,6 +87,7 @@ const EditorContainer = styled.div`
 `;
 
 const SubmitButton = styled.button`
+  font-family: 'ContentFont2';
   display: block;
   width: 100%;
   padding: 10px;
@@ -94,7 +98,6 @@ const SubmitButton = styled.button`
   cursor: pointer;
   font-size: 16px;
   text-transform: uppercase;
-
   &:hover {
     background-color: #45a049;
   }
