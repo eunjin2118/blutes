@@ -133,6 +133,7 @@ const Login = () => {
               id="email"
               name="email"
               onChange={handleInput}
+              placeholder="이메일을 입력하세요"
               required
             />
             <Label htmlFor="password" className="label2">비밀번호</Label><br />
@@ -141,9 +142,9 @@ const Login = () => {
               id="password"
               name="password"
               onChange={handleInput}
+              placeholder="비밀번호를 입력하세요"
               required
             />
-            <Label className="label3">아이디/비밀번호 찾기 </Label>
             <Label className="label4" onClick={navigateToSignup}>회원가입</Label><br />
             <LoginButton type="submit">로그인</LoginButton>
           </form>
