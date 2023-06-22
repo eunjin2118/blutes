@@ -30,12 +30,14 @@ const CompanyCard = styled.div`
 `;
 
 const CompanyName = styled.h3`
+  font-family: 'ContentFont3';  
   font-size: 16px;
   color: #3f51b5;
   margin-bottom: 5px;
 `;
 
 const CompanyTitle = styled.p`
+  font-family: 'ContentFont2';  
   font-size: 14px;
   color: #555;
 `;
@@ -47,6 +49,7 @@ const CategoryWrapper = styled.div`
 `;
 
 const CategoryButton = styled.button`
+  font-family: 'ContentFont2';  
   margin-right: 5px;
   background-color: ${({ isActive }) => (isActive ? '#3f51b5' : '#ccc')};
   color: #fff;
@@ -69,10 +72,12 @@ const OptionItem = styled.div`
 `;
 
 const Checkbox = styled.input`
+  font-family: 'ContentFont2';  
   margin-right: 5px;
 `;
 
 const OptionLabel = styled.label`
+  font-family: 'ContentFont2';  
   color: #555;
 `;
 
@@ -88,6 +93,7 @@ const AppWrapper = styled.div`
 `;
 
 const Title = styled.h1`
+  font-family: 'ContentFont3';  
   font-size: 24px;
   text-align: center;
   color: #3f51b5;
