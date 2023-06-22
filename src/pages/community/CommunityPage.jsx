@@ -29,7 +29,7 @@ const SearchIcon = styled.img`
   position: absolute;
   width: 17px;
   top: 50%;
-  right: 20%;
+  right: 21%;
   transform: translateY(-50%);
   margin: 0;
 `;
@@ -37,15 +37,15 @@ const SearchIcon = styled.img`
 const PenIcon = styled.img`
   position: absolute;
   width: 17px;
-  right: 13%;
-  top:30%
+  right: 10%;
+  top:30%;
   margin-right: 10px;
 `
 
 const PostButton = styled.button`
   font-family: 'ContentFont1';
-  padding: 10px 30px;
-  margin-left: 10px;
+  padding: 0px 30px;
+  margin-left: 20px;
   background-color: #071DA1;
   color: #fff;
   border: none;
@@ -179,10 +179,11 @@ const ViewWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const BackGround = styled.div`
-  width: 100%;
-  height: 100%;
-`
+const P = styled.p`
+  display: flex;
+  margin-left:20%;
+`;
+
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   const year = date.getFullYear();
@@ -320,7 +321,9 @@ const CommunityPage = () => {
           />
           <SearchIcon src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" />
           <PostButton onClick={handlePostButtonClick}>
-            <PenIcon src={penimg}/>작성하기</PostButton>
+            <PenIcon src={penimg} />
+            <P>작성하기</P>
+          </PostButton>
         </SearchContainer>
         <hr />
         <Wrapper>
