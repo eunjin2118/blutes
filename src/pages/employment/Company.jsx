@@ -79,7 +79,7 @@ const OptionLabel = styled.label`
 const AppWrapper = styled.div`
   max-width: 800px;
   margin: 0 auto;
-  margin-top: 5%;
+  margin-top: 3%;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -94,7 +94,8 @@ const Title = styled.h1`
   margin-bottom: 20px;
 `;
 
-const CompanyCardContainer = styled.div`
+const CompanyCardContainer = styled.div`  
+  margin-top: 2%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
