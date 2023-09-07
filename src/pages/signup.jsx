@@ -1,117 +1,144 @@
-import React from 'react'
-import { useState, useEffect } from "react";
-import backimg from "../img/company3.jpg";
-import Header from "./Header.js";
-import axios from "axios";
+import React from 'react';
+import { useState } from 'react';
+import backimg from '../img/loginbg.png';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
-function Signup() {
-    const [isToggled, setIsToggled] = useState(false);
-    const [userToggled, setUserToggled] = useState(false);
-    const navigate = useNavigate();
+const Container = styled.div`
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
 
-    const [values, setValues] = useState({
-        name: '',
-        email: '',
-        password: '',
-        confirm_password: ''
-    });
+const ImageBox = styled.div`
+  width: 50vw;
+  height: 100vh;
+  overflow: hidden;
+`;
 
-    const handleInput = (event) => {
-        setValues(prev => ({...prev, [event.target.name] : [event.target.value]}))
-    };
+const BackgroundImage = styled.div`
+  width: 100%;
+  height: 100%;
+  background-image: url(${backimg});
+  background-size: cover;
+  background-position: left;
+`;
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        axios.post('signup', values)
-        .then(res => {
-            if(res.data.Status === "Success"){
-                navigate('/');
-            } else{
-                alert("Error");
-            }
-        })
-        .then(err => console.log(err))
-    }
+const LoginBox = styled.div`
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const Heading = styled.h1`
+  margin-bottom: 1rem;
+`;
+
+const Form = styled.form`
+  width: 50%;
+`;
+
+const Label = styled.label`
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+`;
+
+const SubmitButton = styled.button`
+  width: 100%;
+  margin-left: 2%;
+  margin-right: 2%;
+  padding: 0.8rem;
+  margin-top: 20px;
+  border: none;
+  color: white;
+  background-color: #071DA1;
+`;
+
+const Signup = () => {
+  const [values, setValues] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirm_password: '',
+  });
+  const navigate = useNavigate();
+
+  const handleInput = (event) => {
+    setValues((prev) => ({ ...prev, [event.target.name]: [event.target.value] }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .post('signup', values)
+      .then((res) => {
+        if (res.data.Status === 'Success') {
+          navigate('/');
+        } else {
+          alert('이미 이름이 존재합니다. 다른 이름을 이용해주세요.');
+        }
+      })
+      .then((err) => console.log(err));
+  };
 
   return (
     <>
-    <Header
-      isToggled={isToggled}
-      userToggled={userToggled}
-      setIsToggled={setIsToggled}
-      setUserToggled={setUserToggled}
-    />
-    <div
-      className="container"
-      style={{
-        margin: 0,
-        padding: 0,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-start"
-      }}
-    >
-      <div
-        className="img-box"
-        style={{
-          width: "50vw", // 가로는 화면의 반만 차게
-          height: "100vh", // 세로는 화면에 꽉 차게
-          overflow: "hidden"
-        }}
-      >
-        <div
-          className="background-img"
-          style={{
-            width: "100%",
-            height: "100%",
-            backgroundImage: `url(${backimg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "left"
-          }}
-        ></div>
-      </div>
-      <div className="login-box" style={{ flex: 1, padding: "2rem" }}>
-      <h1>회원가입</h1>
-      <form onSubmit={handleSubmit}>
-      <label htmlFor="email" className="label1">이름</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          placeholder='Enter Name'
-          onChange={handleInput}
-        /><br />
-        <label htmlFor="email" className="label2">이메일 또는 아이디</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder='Enter Email'
-          onChange={handleInput}
-        /><br />
-        <label htmlFor="password" className="label3">비밀번호</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder='Enter Password'
-          onChange={handleInput}
-        /><br />
-        <label htmlFor="confirm_password" className="label4">비밀번호 확인</label>
-        <input
-          type="password"
-          id="confirm_password"
-          name="confirm_password"
-          placeholder='Enter password again'
-          onChange={handleInput}
-        /><br />
-        <button type="submit">회원가입</button>
-      </form>
-      </div>
-    </div>
-  </>
-  )
-}
+      <Container>
+        <ImageBox>
+          <BackgroundImage />
+        </ImageBox>
+        <LoginBox>
+          <Heading>회원가입</Heading>
+          <Form onSubmit={handleSubmit}>
+            <Label htmlFor="name">이름</Label>
+            <Input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Enter Name"
+              onChange={handleInput}
+            />
+            <Label htmlFor="email">이메일 또는 아이디</Label>
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter Email"
+              onChange={handleInput}
+            />
+            <Label htmlFor="password">비밀번호</Label>
+            <Input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter Password"
+              onChange={handleInput}
+            />
+            <SubmitButton type="submit">회원가입</SubmitButton>
+          </Form>
+        </LoginBox>
+      </Container>
+    </>
+  );
+};
 
-export default Signup
+export default Signup;

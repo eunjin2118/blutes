@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import backimg from "../img/company3.jpg";
-import Header from "./Header.js";
+import backimg from "../img/loginbg.png";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
@@ -20,7 +19,6 @@ const ImgBox = styled.div`
 `;
 
 const BackgroundImg = styled.div`
-  margin-top: 2px;
   width: 100%;
   height: 100%;
   background-image: url(${backimg});
@@ -60,6 +58,13 @@ const Label = styled.label`
 
 const LoginButton = styled.button`
   /* styles for the login button */
+  width: 100%;
+  margin-left: 2%;
+  padding: 0.8rem;
+  margin-top: 20px;
+  border: none;
+  color: white;
+  background-color: #071DA1;
 `;
 
 const Input = styled.input`
@@ -85,6 +90,8 @@ const Login = () => {
     password: '',
   });
 
+  const [user, setUser] = useState("");
+
   const handleInput = (event) => {
       setValues(prev => ({...prev, [event.target.name] : [event.target.value]}))
   };
@@ -96,7 +103,8 @@ const Login = () => {
       axios.post('login', values)
       .then(res => {
           if(res.data.Status === "Success"){
-              navigate('/main');
+            console.log(res.data);
+            navigate('/main', {state : {value : res.data.name}});
           } else{
               alert(res.data.Error);
           }
@@ -106,12 +114,12 @@ const Login = () => {
 
   return (
     <>
-      <Header
+      {/* <Header
         isToggled={isToggled}
         userToggled={userToggled}
         setIsToggled={setIsToggled}
         setUserToggled={setUserToggled}
-      />
+      /> */}
       <Container>
         <ImgBox>
           <BackgroundImg />
@@ -125,6 +133,7 @@ const Login = () => {
               id="email"
               name="email"
               onChange={handleInput}
+              placeholder="이메일을 입력하세요"
               required
             />
             <Label htmlFor="password" className="label2">비밀번호</Label><br />
@@ -133,9 +142,9 @@ const Login = () => {
               id="password"
               name="password"
               onChange={handleInput}
+              placeholder="비밀번호를 입력하세요"
               required
             />
-            <Label className="label3">아이디/비밀번호 찾기 </Label>
             <Label className="label4" onClick={navigateToSignup}>회원가입</Label><br />
             <LoginButton type="submit">로그인</LoginButton>
           </form>

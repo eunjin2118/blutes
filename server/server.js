@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const dotenv = require("dotenv");
+const { faClipboardList } = require('@fortawesome/free-solid-svg-icons');
 
 
 const salt = 10;
@@ -36,6 +37,27 @@ db.connect((err)=>{
     }
 });
 
+const verifyUser = (req, res ,next) => {
+  const token = req.cookies.token;
+  if(!token){
+    return res.json({Error : "You are not authenticated"});
+  } else {
+    // 토큰 만료시간
+    jwt.verify(token, "jwt-secret-key", (err, decoded)=>{
+      if(err){
+        return res.json({Error : "Token is not okey"});
+      } else {
+        
+        req.name = decoded.name;
+        next();
+      }
+    })
+  }
+}
+
+app.get('/auth', verifyUser, (req, res) => {
+  return res.json({Status: "Success"});
+})
 
 // 회원가입
 app.post('/signup', (req, res) => {
@@ -58,7 +80,7 @@ app.post('/signup', (req, res) => {
 
 // 로그인
 app.post('/login', (req, res) => {
-    const sql = "SELECT email, password FROM login WHERE email=?";
+    const sql = "SELECT name, email, password FROM login WHERE email=?";
     db.query(sql, req.body.email, (err, data) => {
         console.log(data);
         if(err) return res.json({Error: "Login error in server"});
@@ -69,7 +91,7 @@ app.post('/login', (req, res) => {
                     const name = data[0].name;
                     const token = jwt.sign({name}, "jwt-secret-key", {expiresIn: '1d'});
                     res.cookie('token', token);
-                    return res.json({Status : "Success"});
+                    return res.json({Status : "Success", name : name});
                 } else {
                     return res.json({Error: "Password not matched"});
                 }
@@ -78,6 +100,11 @@ app.post('/login', (req, res) => {
             return res.json({Error: "No email existed"});
         }
     })
+})
+
+app.get('/logout', (req, res)=>{
+  res.clearCookie('token');
+  return res.json({Status:"Success"});
 })
 
 // 게시판 글 작성한 데이터 전송
@@ -119,85 +146,209 @@ app.post('/add', (req, res) => {
   });
 });
 
-app.post('/comments/:id', (req, res) => {
-  const postId = req.params.id;
-  const commentContent = req.body.comment;
-        // 댓글 추가
-        const insertSql = "INSERT INTO comments (post_id, content) VALUES (?, ?)";
-        const insertParams = [postId, commentContent];
-
-        db.query(insertSql, insertParams, (err, rows) => {
-          if (err) {
-            console.log(err);
-            res.send('Error occurred while adding comment.');
-          } else {
-            console.log('댓글 추가 완료');
-            res.json(rows);
-          }
-        });
-      }
-);
-
 // 게시판 조회
 app.get('/getPosts', (req, res) => {
-  var selectSql = "SELECT id, title, DATE_FORMAT(post_date, '%Y-%m-%d') AS post_date, content FROM board"; // post_date를 YYYY-MM-DD 형식으로 가져옴
+  var selectSql = "SELECT id, title, DATE_FORMAT(post_date, '%Y-%m-%d') AS post_date, content, views, likes FROM board";
+  
   db.query(selectSql, (err, rows) => {
     if (err) {
       console.log(err);
       res.send('데이터를 가져오는 중에 오류가 발생했습니다.');
     } else {
       console.log('데이터 조회 완료');
-      
-      //게시물별로 댓글을 가져오는 로직 추가
-      const postsWithComments = rows.map(async (post) => {
-        const commentSql = "SELECT content FROM comments WHERE post_id = ?";
-        const comments = await new Promise((resolve, reject) => {
-          db.query(commentSql, [post.id], (err, commentRows) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(commentRows.map(row => row.comment));
-            }
-          });
-        });
-        return { ...post, comments };
-      });
-      
-      Promise.all(postsWithComments)
-        .then((posts) => res.json(posts))
-        .catch((error) => {
-          console.log(error);
-          res.send('댓글을 가져오는 중에 오류가 발생했습니다.');
-        });
-      }
+      res.json({ result: rows });
+    }
   });
 });
 
+
 //게시물 1개 조회
 app.get('/posts/:id', (req, res) => {
-  const id = req.params.id
+  const id = req.params.id;
   var selectSql = `
     SELECT 
     b.id, b.title, DATE_FORMAT(b.post_date, '%Y-%m-%d') AS post_date, b.content as board_content, c.content as comment_content, c.nickname
     FROM board as b
     LEFT JOIN comments as c
     ON b.id = c.post_id
-    WHERE b.id = ?;
-  `; // post_date를 YYYY-MM-DD 형식으로 가져옴
+    WHERE b.id = ?
+  `; // post_date를 YYYY-MM-DD 형식으로 가져오고 댓글을 게시날짜를 기준으로 내림차순으로 정렬
   db.query(selectSql, [id], async (err, rows) => {
     if (err) {
       console.log(err);
       res.send('데이터를 가져오는 중에 오류가 발생했습니다.');
     } else {
-      if(rows.length === 0) {
+      if (rows.length === 0) {
         res.json({ message: "데이터가 존재하지 않습니다." });
       } else {
-        res.json({ result: rows })
+        res.json({ result: rows });
       }
-      console.log('데이터 조회 완료')
+      console.log('데이터 조회 완료');
     }
   });
 });
+
+
+// 단어장
+app.post('/addworld', (req, res) => {
+  const sql = "INSERT INTO word (`word`, `meaning`, `sentence`, `date`) VALUES (?, ?, ?, ?)";
+      const values = [
+          req.body.word,
+          req.body.meaning,
+          req.body.sentence,
+          req.body.date
+      ];
+      db.query(sql, values, (err, result)=>{
+          if(err) return res.json({Error: "Inserting data Error in server"});
+          return res.json({Status : "Success"});
+      })
+})
+
+app.get('/getWords', (req, res) => {
+    const sql = "SELECT word, meaning, sentence, DATE_FORMAT(date, '%Y-%m-%d') AS date FROM word";
+    db.query(sql, (err, result)=>{
+      if(err) return res.json({Error: "Select data Error in server"});
+      return res.json(result);
+  })
+})
+
+// 퀴즈
+app.get('/quiz', (req, res)=>{
+  const sql = "SELECT * FROM quiz";
+  db.query(sql, (err, result)=>{
+    if(err) return res.json({Error: "Select data Error in server"});
+    return res.json(result);
+})
+})
+
+app.post('/comments/:id', (req, res) => {
+  const postId = req.params.id;
+  const commentContent = req.body.comment;
+
+  // 댓글 추가
+  const insertSql = "INSERT INTO comments (post_id, content, nickname) VALUES (?, ?, ?)";
+  const insertParams = [postId, commentContent, req.body.nickname]; // Assuming 'nickname' is sent in the request body
+
+  db.query(insertSql, insertParams, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ error: 'Error occurred while adding comment.' });
+    } else {
+      console.log('댓글 추가 완료');
+      res.status(200).json({ message: '댓글이 추가되었습니다.' });
+    }
+  });
+});
+
+// 검색 기능
+app.get("/search", (req, res) => {
+  let search = req.query.search;
+  let title = req.query.title || "";
+  console.log(`/search 시작`);
+  //console.log("search 는" + search + "다");
+  db.query(
+    "SELECT * FROM board WHERE title LIKE ?",
+    ["%" + search + "%", "%" + title + "%"],
+    (err, results) => {
+      if (err) {
+        console.log("db select error" + err);
+      } else {
+        console.log(results);
+        res.send(results);
+      }
+    }
+  );
+});
+
+// 조회수
+app.post('/updateViews/:postId', (req, res) => {
+  const postId = req.params.postId;
+
+  // 게시물 조회수 업데이트 로직 작성
+  // 예: 게시물을 데이터베이스에서 찾아서 조회수 필드를 1씩 증가시킴
+
+  const updateSql = "UPDATE board SET views = views + 1 WHERE id = ?";
+  db.query(updateSql, [postId], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send('조회수 업데이트 중에 오류가 발생했습니다.');
+    } else {
+      console.log('조회수 업데이트 완료');
+      res.sendStatus(200);
+    }
+  });
+});
+
+// 좋아요
+app.post('/updateLikes/:postId', (req, res) => {
+  const postId = req.params.postId;
+
+  // 좋아요 수 업데이트 로직 작성
+  // 예: 게시물을 데이터베이스에서 찾아서 좋아요 필드를 1씩 증가시킴
+
+  const updateSql = "UPDATE board SET likes = likes + 1 WHERE id = ?";
+  db.query(updateSql, [postId], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send('좋아요 수 업데이트 중에 오류가 발생했습니다.');
+    } else {
+      console.log('좋아요 수 업데이트 완료');
+      res.sendStatus(200);
+    }
+  });
+});
+
+// 외부 api연동
+const axios = require('axios');
+const { parseString } = require('xml2js');
+const { json } = require('react-router-dom/dist/umd/react-router-dom.development');
+
+app.get("/job_info", (req, res) => {
+  const apiUrl = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do';
+  axios
+    .get(apiUrl, {
+      params: {
+        authKey: 'WNLJ25LTIEJLVSONBHK0S2VR1HJ',
+        target: 'EMPLOYMENT',
+        callTp: "L",
+        returnType: "xml",
+        startPage: 1,
+        display: 1000
+      }
+    })
+    .then(response => {
+      const xmlData = response.data;
+      parseXmlToJson(xmlData, (err, jsonData) => {
+        if (err) {
+          console.error('XML to JSON 변환 오류:', err);
+          res.send("<h1>error</h1>");
+          return;
+        }
+        console.log(jsonData);
+        res.json(jsonData);
+      });
+    })
+    .catch(error => {
+      console.error('API 요청 오류:', error);
+      res.send("<h1>error</h1>")
+    });
+});
+
+// XML 데이터를 JSON으로 변환하는 함수
+function parseXmlToJson(xmlData, callback) {
+  parseString(xmlData, { explicitArray: false }, (err, result) => {
+    if (err) {
+      callback(err);
+      return;
+    }
+    try {
+      const jsonData = result;
+      callback(null, jsonData);
+    } catch (err) {
+      callback(err);
+    }
+  });
+}
 
 app.listen(5000, ()=>{
     console.log("Connectd to server");

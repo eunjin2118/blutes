@@ -4,7 +4,8 @@ import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
 import Header from '../Header';
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import bg from "../../img/postbg.png";
 
 const Container = styled.div`
   display: flex;
@@ -13,6 +14,9 @@ const Container = styled.div`
   justify-content: center;
   width: 100%;
   height: 100vh;
+  background-image: url(${bg});
+  background-size: cover;
+  background-position: center;
 `;
 
 const FormWrapper = styled.div`
@@ -25,9 +29,11 @@ const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: -70px;
 `;
 
 const Title = styled.h2`
+  font-family: 'TitleFont';
   margin-top: 0;
   font-size: 24px;
   color: #333;
@@ -42,12 +48,14 @@ const FormGroup = styled.div`
 `;
 
 const Label = styled.label`
+  font-family: 'ContentFont2';
   display: block;
   margin-bottom: 5px;
   font-weight: 500;
 `;
 
 const Input = styled.input`
+  font-family: 'ContentFont2';
   width: calc(100% - 20px);
   padding: 10px;
   border: 1px solid #ccc;
@@ -79,17 +87,17 @@ const EditorContainer = styled.div`
 `;
 
 const SubmitButton = styled.button`
+  font-family: 'ContentFont2';
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: #4caf50;
+  background-color: #071DA1;;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
   text-transform: uppercase;
-
   &:hover {
     background-color: #45a049;
   }
@@ -101,6 +109,10 @@ const POST = () => {
   const [userToggled, setUserToggled] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+
+  const location = useLocation();
+  const name = location.state.value;
+
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -120,7 +132,7 @@ const POST = () => {
       .then((res) => {
         console.log(res.data.Status);
         if (res) {
-          window.location.href = '/community';
+          navigate('/community', { state: { value: name } });
         } else {
           alert(res.data.Error);
         }
@@ -135,6 +147,7 @@ const POST = () => {
         userToggled={userToggled}
         setIsToggled={setIsToggled}
         setUserToggled={setUserToggled}
+        setUserName={name}
       />
       <Container>
         <FormWrapper>

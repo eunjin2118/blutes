@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Header';
+import axios from "axios";
+import { useLocation } from 'react-router-dom/dist/umd/react-router-dom.development';
+import bg from "../../img/addwordbg.png";
 
 const Container = styled.div`
   display: flex;
@@ -9,15 +12,16 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   padding: 20px;
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
   height: 100vh;
+  margin-top: -5%;
 `;
 
 const Title = styled.h1`
+  font-family: 'TitleFont';
   margin-bottom: 20px;
   color: #333;
   text-align: center;
+  font-family: 'TitleFont';
 `;
 
 const Form = styled.form`
@@ -33,6 +37,7 @@ const Form = styled.form`
 `;
 
 const Label = styled.label`
+  font-family: 'ContentFont2';
   margin-bottom: 5px;
   font-weight: bold;
   color: #333;
@@ -59,8 +64,9 @@ const TextArea = styled.textarea`
 `;
 
 const SubmitButton = styled.input`
+  font-family: 'ContentFont2';
   padding: 12px;
-  background-color: #4CAF50;
+  background-color: #071DA1;
   color: white;
   border: none;
   border-radius: 4px;
@@ -68,76 +74,88 @@ const SubmitButton = styled.input`
   font-size: 14px;
 `;
 
-const AddWordForm = ({ addWord }) => {
-  const [word, setWord] = useState('');
-  const [meaning, setMeaning] = useState('');
-  const [sentence, setSentence] = useState('');
+const Body = styled.div`
+  background-image: url(${bg});
+  background-size: cover;
+  background-position: center;
+`;
+
+const AddWordForm = () => {
+  const [isToggled, setIsToggled] = useState(false);
+  const [userToggled, setUserToggled] = useState(false);
   const navigate = useNavigate();
 
-  // addWord 함수 정의
-  const handleAddWord = (newWord) => {
-    addWord(newWord);
+  const location = useLocation();
+  const name = location.state.value;
+
+  const [values, setValues] = useState({
+    word: '',
+    meaning: '',
+    sentence: '',
+    date: Date.now()
+  });
+
+  const handleInput = (event) => {
+    setValues(prev => ({...prev, [event.target.name] : [event.target.value]}))
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const newWord = {
-      id: Date.now(),
-      word: word,
-      meaning,
-      sentence,
-    };
-
-    addWord(newWord); // 수정된 부분
-
-    // 폼 초기화
-    setWord('');
-    setMeaning('');
-    setSentence('');
-
-    // 페이지 이동
-    navigate('/WordList');
-  }; 
+  
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios.post('addworld', values)
+    .then(res => {
+        if(res.data.Status === "Success"){
+            navigate('/wordlist', { state: { value: name } });
+        } else{
+            alert("Error");
+        }
+    })
+    .then(err => console.log(err))
+  };
 
   return (
     <>
-      <Header />
-      <Container>
-        <Title>단어 추가하기</Title>
-        <Form onSubmit={handleSubmit}>
-          <Label htmlFor="abbreviation">단어:</Label>
-          <TextInput
-            type="text"
-            id="word"
-            name="word"
-            value={word}
-            onChange={(e) => setWord(e.target.value)}
-            required
-          />
+      <Header
+        isToggled={isToggled}
+        userToggled={userToggled}
+        setIsToggled={setIsToggled}
+        setUserToggled={setUserToggled}
+        setUserName={name}
+      />
+      <Body>
+        <Container>
+          <Title>단어 추가하기</Title>
+          <Form onSubmit={handleSubmit}>
+            <Label htmlFor="word">단어:</Label>
+            <TextInput
+              type="text"
+              id="word"
+              name="word"
+              onChange={handleInput}
+              required
+            />
 
-          <Label htmlFor="meaning">의미:</Label>
-          <TextInput
-            type="text"
-            id="meaning"
-            name="meaning"
-            value={meaning}
-            onChange={(e) => setMeaning(e.target.value)}
-            required
-          />
+            <Label htmlFor="meaning">의미:</Label>
+            <TextInput
+              type="text"
+              id="meaning"
+              name="meaning"
+              onChange={handleInput}
+              required
+            />
 
-          <Label htmlFor="sentence">예시 문장:</Label>
-          <TextArea
-            id="sentence"
-            name="sentence"
-            value={sentence}
-            onChange={(e) => setSentence(e.target.value)}
-            required
-          ></TextArea>
+            <Label htmlFor="sentence">예시 문장:</Label>
+            <TextArea
+              id="sentence"
+              name="sentence"
+              rows="4"
+              onChange={handleInput}
+              required
+            ></TextArea>
 
-          <SubmitButton type="submit" value="추가" />
-        </Form>
-      </Container>
+            <SubmitButton type="submit" value="추가" />
+          </Form>
+        </Container>
+      </Body>
     </>
   );
 };
